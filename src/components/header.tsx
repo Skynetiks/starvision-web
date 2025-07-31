@@ -68,8 +68,8 @@ export function Header() {
       ],
     },
     {
-      name: "Blog",
-      link: "/blog",
+      name: "Blogs",
+      link: "/blogs",
     },
     {
       name: "Contact",
