@@ -1,13 +1,17 @@
-import type { MetadataRoute } from "next"
+import type { MetadataRoute } from "next";
+import { getServerSideURL } from "@/payload/utilities/getURL";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: [],
+      disallow: "/admin",
     },
-    sitemap: `https://${process.env.BASE_URL}/sitemap.xml`, // Needs to be updated with the actual URL
-    host: `https://${process.env.BASE_URL}`, // Needs to be updated with the actual URL
-  }
+    sitemap: [
+      `${getServerSideURL()}/sitemap.xml`,
+      `${getServerSideURL()}/sitemap-blogs.xml`,
+      `${getServerSideURL()}/sitemap-pages.xml`,
+    ],
+  };
 }

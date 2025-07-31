@@ -1,0 +1,48 @@
+/* THIS FILE WAS GENERATED AUTOMATICALLY BY PAYLOAD. */
+/* DO NOT MODIFY IT BECAUSE IT COULD BE REWRITTEN AT ANY TIME. */
+import config from "@payload-config";
+import "@payloadcms/next/css";
+import type { ServerFunctionClient } from "payload";
+import { handleServerFunctions, RootLayout } from "@payloadcms/next/layouts";
+import React from "react";
+import { Geist, Geist_Mono } from "next/font/google";
+import { importMap } from "./admin/importMap.js";
+import "./payload.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+type Args = {
+  children: React.ReactNode;
+};
+
+const serverFunction: ServerFunctionClient = async function (args) {
+  "use server";
+  return handleServerFunctions({
+    ...args,
+    config,
+    importMap,
+  });
+};
+
+const Layout = ({ children }: Args) => (
+  //   <html lang="en">
+
+  <RootLayout
+    config={config}
+    importMap={importMap}
+    serverFunction={serverFunction}
+  >
+    {children}
+  </RootLayout>
+  //   </html>
+);
+
+export default Layout;

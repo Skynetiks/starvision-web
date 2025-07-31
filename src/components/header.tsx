@@ -67,10 +67,10 @@ export function Header() {
         },
       ],
     },
-    // {
-    //   name: "Blog",
-    //   link: "/blog",
-    // },
+    {
+      name: "Blog",
+      link: "/blog",
+    },
     {
       name: "Contact",
       link: "/contact",
