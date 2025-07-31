@@ -1,4 +1,3 @@
-import { blogPosts } from "@/lib/blogData";
 import { businessData } from "@/lib/businessData";
 import { MetadataRoute } from "next";
 

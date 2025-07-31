@@ -1,4 +1,3 @@
-import { payloadCloudPlugin } from "@payloadcms/payload-cloud";
 import { nestedDocsPlugin } from "@payloadcms/plugin-nested-docs";
 import { seoPlugin } from "@payloadcms/plugin-seo";
 import { searchPlugin } from "@payloadcms/plugin-search";

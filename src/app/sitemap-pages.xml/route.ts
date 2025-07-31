@@ -6,14 +6,20 @@ export async function GET() {
   const url = getServerSideURL();
 
   // Base routes
-  const routes = ["", "/about", "/contact", "/services", "/countries"].map(
-    (route) => ({
-      url: `${url}${route}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 1,
-    })
-  );
+  const routes = [
+    "",
+    "/about",
+    "/contact",
+    "/services",
+    "/countries",
+    "/blogs",
+    "/schedule-consultation",
+  ].map((route) => ({
+    url: `${url}${route}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 1,
+  }));
 
   const serviceRoutes = [
     "/services/accounting-and-tax",

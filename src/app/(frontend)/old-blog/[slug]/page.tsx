@@ -26,14 +26,69 @@ export async function generateMetadata({
     };
   }
 
+  const title = `${post.title} | CSG Advisory Blog`;
+  const description =
+    post.excerpt ||
+    "Read our latest insights on business registration and compliance.";
+  const imageUrl = post.image || "/images/team.webp";
+  const fullUrl = `https://${process.env.BASE_URL || "csgadvisory.com"}/blog/${
+    post.slug
+  }`;
+
   return {
-    title: `${post.title} | CSG Advisory Blog`,
-    description: post.excerpt,
+    title,
+    description,
+    metadataBase: new URL(
+      `https://${process.env.BASE_URL || "csgadvisory.com"}`
+    ),
+    alternates: {
+      canonical: fullUrl,
+    },
     openGraph: {
       title: post.title,
-      description: post.excerpt,
-      images: [post.image],
+      description,
+      url: fullUrl,
       type: "article",
+      locale: "en_US",
+      siteName: "CSG Advisory",
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+      publishedTime: post.date ? new Date(post.date).toISOString() : undefined,
+      authors: [post.author],
+      section: post.category,
+      tags: [post.category],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description,
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+      creator: "@csgadvisory",
+      site: "@csgadvisory",
+    },
+    other: {
+      ...(post.date && {
+        "article:published_time": new Date(post.date).toISOString(),
+      }),
+      "article:author": post.author,
+      "article:section": post.category,
+      "article:tag": post.category,
+      "og:image:width": "1200",
+      "og:image:height": "630",
+      "og:image:alt": post.title,
     },
   };
 }

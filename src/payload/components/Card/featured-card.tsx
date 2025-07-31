@@ -15,12 +15,12 @@ import {
 } from "@/payload/components/blog";
 import { RelativeTime } from "@/components/ui/relative-time";
 
-export type CardPostData = Blog;
+export type FeaturedCardPostData = Blog;
 
-export const Card: React.FC<{
+export const FeaturedCard: React.FC<{
   alignItems?: "center";
   className?: string;
-  doc?: CardPostData;
+  doc?: FeaturedCardPostData;
   relationTo?: "blogs";
   showCategories?: boolean;
   title?: string;
@@ -44,6 +44,7 @@ export const Card: React.FC<{
     publishedAt,
     populatedAuthors,
   } = doc || {};
+
   const { description } = meta || {};
   const heroImageToUse = heroImage
     ? typeof heroImage === "object"
@@ -59,55 +60,52 @@ export const Card: React.FC<{
 
   return (
     <article
-      className={cn(
-        " overflow-hidden bg-card hover:cursor-pointer border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer h-full flex flex-col",
-        className
-      )}
+      className={cn("overflow-hidden bg-card rounded-lg block", className)}
       ref={card.ref}
     >
-      <div className="relative aspect-[16/10] w-full overflow-hidden">
-        <MediaComponent
-          resource={heroImageToUse}
-          size="33vw"
-          fill={true}
-          imgClassName="object-cover w-full h-full"
-        />
-      </div>
-      <div className="p-4 flex-1 flex flex-col">
-        {showCategories && hasCategories && (
-          <CategoryBadge categories={categories} className="mb-3" />
-        )}
-
-        {titleToUse && (
-          <BlogTitle
-            title={titleToUse}
-            slug={slug || ""}
-            href={href}
-            size="sm"
-            linkRef={link.ref}
-            className="flex-1"
+      <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-stretch h-full">
+        {/* Left Image */}
+        <div className="relative h-[300px] lg:h-full w-full rounded-xl overflow-hidden">
+          <MediaComponent
+            resource={heroImageToUse}
+            size="50vw"
+            fill={true}
+            imgClassName="object-cover w-full h-full"
           />
-        )}
+        </div>
 
-        {sanitizedDescription && (
-          <BlogDescription
-            description={sanitizedDescription}
-            size="sm"
-            maxLines={3}
-            className="mb-4"
-          />
-        )}
+        {/* Right Content */}
+        <div className="space-y-4 p-6 flex flex-col justify-center">
+          {showCategories && hasCategories && (
+            <CategoryBadge categories={categories} />
+          )}
 
-        <div className="mt-auto">
+          {titleToUse && (
+            <BlogTitle
+              title={titleToUse}
+              slug={slug || ""}
+              href={href}
+              size="lg"
+              linkRef={link.ref}
+            />
+          )}
+
+          {sanitizedDescription && (
+            <BlogDescription
+              description={sanitizedDescription}
+              size="md"
+              maxLines={4}
+            />
+          )}
+
           <BlogMeta
             authors={authors}
             populatedAuthors={populatedAuthors}
             publishedAt={<RelativeTime publishedAt={publishedAt || ""} />}
-            size="sm"
-            className="mb-4"
+            size="md"
           />
 
-          <ReadMoreButton href={href} size="sm" className="w-full" />
+          <ReadMoreButton href={href} alt={titleToUse} />
         </div>
       </div>
     </article>

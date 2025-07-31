@@ -1,6 +1,6 @@
 import sharp from "sharp"; // sharp-import
 import path from "path";
-import { buildConfig, PayloadComponent } from "payload";
+import { buildConfig } from "payload";
 import { fileURLToPath } from "url";
 import { Users } from "@/payload/collections/Users";
 import { defaultLexical } from "@/payload/fields/defaultLexical";
@@ -10,7 +10,6 @@ import { Categories } from "@/payload/collections/Categories";
 import { Media } from "@/payload/collections/Media";
 import { getServerSideURL } from "@/payload/utilities/getURL";
 import { plugins } from "@/payload/plugins";
-import Logo from "./site/logo";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

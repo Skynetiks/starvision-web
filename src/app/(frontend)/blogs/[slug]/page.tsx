@@ -3,15 +3,13 @@ import type { Metadata } from "next";
 import { RelatedPostCard } from "@/components/related-post-card";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
-import { draftMode } from "next/headers";
 import React, { cache } from "react";
 import RichText from "@/payload/components/RichText";
-
-import type { Blog } from "@/payload/payload-types";
 
 import { BlogHero } from "@/payload/heros/BlogHero";
 import { generateMeta } from "@/payload/utilities/generateMeta";
 import { notFound } from "next/navigation";
+import { SelectSeparator } from "@/components/ui/select";
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise });
@@ -40,9 +38,7 @@ type Args = {
 };
 
 export default async function Post({ params: paramsPromise }: Args) {
-  const { isEnabled: draft } = await draftMode();
   const { slug = "" } = await paramsPromise;
-  const url = "/blogs/" + slug;
   const blog = await queryBlogBySlug({ slug });
 
   if (!blog) {
@@ -55,8 +51,8 @@ export default async function Post({ params: paramsPromise }: Args) {
 
       <BlogHero blog={blog} />
 
-      <div className="flex flex-col items-center gap-4 pt-8">
-        <div className="container">
+      <div className="flex flex-col items-center gap-4 pt-16">
+        <div className="container p-4">
           <RichText
             className="max-w-[48rem] mx-auto"
             data={blog.content}
@@ -65,7 +61,14 @@ export default async function Post({ params: paramsPromise }: Args) {
           />
         </div>
       </div>
-      <RelatedPostCard currentPost={blog} className="mt-12 max-w-7xl mx-auto" />
+      <div className="container py-20 mx-auto">
+        <SelectSeparator />
+      </div>
+
+      <RelatedPostCard
+        currentPost={blog}
+        className="mt-10 pb-10 max-w-7xl container px-6 mx-auto"
+      />
     </article>
   );
 }

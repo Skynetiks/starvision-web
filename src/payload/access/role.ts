@@ -1,4 +1,3 @@
-import type { User } from "@/payload/payload-types";
 import { checkRole } from "@/payload/collections/utils/checkRole";
 import { Access, AccessArgs } from "payload";
 

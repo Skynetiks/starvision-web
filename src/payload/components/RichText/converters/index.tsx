@@ -8,8 +8,6 @@ import {
   LinkJSXConverter,
 } from "@payloadcms/richtext-lexical/react";
 
-import { CodeBlock, CodeBlockProps } from "@/payload/blocks/Code/Component";
-
 import type {
   BannerBlock as BannerBlockProps,
   CallToActionBlock as CTABlockProps,
@@ -22,22 +20,16 @@ import { MediaBlock } from "@/payload/blocks/MediaBlock/Component";
 import { headingConverter } from "./heading";
 import { blockquoteConverter } from "./blockquote";
 import { listConverters } from "./lists";
-import { codeConverter } from "./code";
 import { horizontalRuleConverter } from "./horizontal-rule";
 import { paragraphConverter } from "./paragraph";
 import { textFormattingConverters } from "./text-formatting";
-import { textConverter } from "./text";
 import { tableConverters } from "./table";
 import { TableOfContents } from "@/payload/blocks/tableOfContent/component";
 
 type NodeTypes =
   | DefaultNodeTypes
   | SerializedBlockNode<
-      | CTABlockProps
-      | MediaBlockProps
-      | BannerBlockProps
-      | CodeBlockProps
-      | TableOfContentsProps
+      CTABlockProps | MediaBlockProps | BannerBlockProps | TableOfContentsProps
     >;
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
@@ -56,11 +48,9 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({
   ...headingConverter,
   ...blockquoteConverter,
   ...listConverters,
-  ...codeConverter,
   ...horizontalRuleConverter,
   ...paragraphConverter,
   ...textFormattingConverters,
-  ...textConverter,
   ...tableConverters,
   ...LinkJSXConverter({ internalDocToHref }),
   blocks: {
@@ -72,12 +62,11 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({
         className="col-start-1 col-span-3"
         imgClassName="m-0"
         {...node.fields}
-        captionClassName="mx-auto max-w-[48rem]"
         enableGutter={false}
         disableInnerContainer={true}
       />
     ),
-    code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
+
     cta: ({ node }) => <CallToActionBlock {...node.fields} />,
     tableOfContents: ({ node }) => <TableOfContents {...node.fields} />,
   },
