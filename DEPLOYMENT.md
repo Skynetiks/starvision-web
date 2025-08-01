@@ -1,93 +1,42 @@
-# StarVision Web Application - EC2 Deployment Guide
+# StarVision Web Application - Deployment Guide
 
-This guide will help you deploy the StarVision web application on AWS EC2 using Docker and PostgreSQL.
+This guide provides step-by-step instructions for deploying the StarVision web application.
 
 ## Prerequisites
 
-- AWS EC2 instance (recommended: t3.medium or larger)
-- Ubuntu 20.04 LTS or later
-- SSH access to your EC2 instance
-- Domain name (optional, for production)
+- Node.js 18+ and pnpm installed
+- Docker and Docker Compose installed
+- PostgreSQL (if not using Docker)
+- Git access to the repository
 
-## Step 1: EC2 Instance Setup
+## Quick Deployment Steps
 
-### 1.1 Launch EC2 Instance
-
-1. Go to AWS Console → EC2 → Launch Instance
-2. Choose Ubuntu Server 20.04 LTS
-3. Select instance type: t3.medium (minimum)
-4. Configure Security Group:
-   - SSH (Port 22) - Your IP
-   - HTTP (Port 80) - 0.0.0.0/0
-   - HTTPS (Port 443) - 0.0.0.0/0 (if using SSL)
-   - Custom TCP (Port 3000) - 0.0.0.0/0 (for direct app access)
-
-### 1.2 Connect to EC2 Instance
+### Step 1: Clone and Setup
 
 ```bash
-ssh -i your-key.pem ubuntu@your-ec2-public-ip
-```
-
-## Step 2: Install Docker and Docker Compose
-
-### 2.1 Update System
-
-```bash
-sudo apt update && sudo apt upgrade -y
-```
-
-### 2.2 Install Docker
-
-```bash
-# Install Docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-
-# Add user to docker group
-sudo usermod -aG docker $USER
-
-# Start Docker service
-sudo systemctl start docker
-sudo systemctl enable docker
-
-# Logout and login again, or run:
-newgrp docker
-```
-
-### 2.3 Install Docker Compose
-
-```bash
-# Install Docker Compose
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-
-# Verify installation
-docker-compose --version
-```
-
-## Step 3: Deploy Application
-
-### 3.1 Clone Repository
-
-```bash
-# Clone your repository
+# Clone the repository
 git clone <your-repository-url>
 cd starvision-web
 
-# Or upload files via SCP
-scp -i your-key.pem -r ./starvision-web ubuntu@your-ec2-public-ip:~/
+# Install dependencies
+pnpm install
 ```
 
-### 3.2 Configure Environment Variables
+### Step 2: Generate Required Files
+
+If the post-install script didn't run automatically, run these commands manually:
 
 ```bash
-# Create .env file
-cp .env.example .env  # if you have an example file
-# Or create manually:
-nano .env
+# Generate Payload types
+pnpm generate:types
+
+# Generate import map
+pnpm generate:importmap
 ```
 
-Add the following content to `.env`:
+### Step 3: Environment Configuration
+
+Create a `.env` file in the root directory with the following variables:
 
 ```env
 # Database Configuration
@@ -99,219 +48,211 @@ POSTGRES_PASSWORD=your-secure-password-here
 PAYLOAD_SECRET=your-super-secret-payload-key-change-this-in-production
 
 # Application Configuration
-NEXT_PUBLIC_SERVER_URL=http://your-ec2-public-ip:3000
+NEXT_PUBLIC_SERVER_URL=http://localhost:3000
 
-# Optional: Add your domain if you have one
+# Optional: Production URL
 # NEXT_PUBLIC_SERVER_URL=https://yourdomain.com
 ```
 
-### 3.3 Run Deployment Script
+### Step 4: Database Setup
+
+Choose one of the following options based on your needs:
+
+#### Option A: Create Migration (if no migration exists)
 
 ```bash
-# Make script executable
-chmod +x deploy.sh
-
-# Run deployment
-./deploy.sh
+pnpm payload migrate:create
 ```
 
-## Step 4: Verify Deployment
-
-### 4.1 Check Application Status
+#### Option B: Fresh Database (⚠️ WARNING: This resets the database)
 
 ```bash
-# Check if containers are running
-docker-compose -f docker-compose.prod.yml ps
+pnpm payload migrate:fresh
+```
 
-# Check logs
-docker-compose -f docker-compose.prod.yml logs -f
+#### Option C: View Available Commands
+
+```bash
+pnpm payload
+```
+
+### Step 5: Start Application
+
+#### For Production (Recommended)
+
+```bash
+# Start with production configuration
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+#### For Development
+
+```bash
+# Start with development configuration
+docker-compose up -d
+```
+
+## Docker Compose Files
+
+The project includes several Docker Compose configurations:
+
+- `docker-compose.yml` - Basic development setup
+- `docker-compose.prod.yml` - Production application setup
+- `docker-compose.postgres.prod.yml` - Production database setup
+
+## Complete Production Deployment
+
+For a complete production deployment with database:
+
+```bash
+# 1. Start the database first
+docker-compose -f docker-compose.postgres.prod.yml up -d
+
+# 2. Wait for database to be ready (check logs)
+docker-compose -f docker-compose.postgres.prod.yml logs -f postgres
+
+# 3. Start the application
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+## Verification
+
+### Check Application Status
+
+```bash
+# View running containers
+docker ps
+
+# Check application logs
+docker-compose -f docker-compose.prod.yml logs -f app
 
 # Health check
 curl http://localhost:3000/api/health
 ```
 
-### 4.2 Access Application
+### Access Points
 
-- Local: http://localhost:3000
-- Public: http://your-ec2-public-ip:3000
-- Admin Panel: http://your-ec2-public-ip:3000/admin
+- **Application**: http://localhost:3000
+- **Admin Panel**: http://localhost:3000/admin
+- **API Health**: http://localhost:3000/api/health
 
-## Step 5: Production Considerations
+## Common Commands
 
-### 5.1 Set Up Reverse Proxy (Nginx)
-
-For production, it's recommended to use Nginx as a reverse proxy:
+### Application Management
 
 ```bash
-# Install Nginx
-sudo apt install nginx -y
-
-# Create Nginx configuration
-sudo nano /etc/nginx/sites-available/starvision
-```
-
-Add the following configuration:
-
-```nginx
-server {
-    listen 80;
-    server_name your-domain.com;  # Replace with your domain
-
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
-    }
-}
-```
-
-Enable the site:
-
-```bash
-sudo ln -s /etc/nginx/sites-available/starvision /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo systemctl restart nginx
-```
-
-### 5.2 Set Up SSL Certificate (Let's Encrypt)
-
-```bash
-# Install Certbot
-sudo apt install certbot python3-certbot-nginx -y
-
-# Get SSL certificate
-sudo certbot --nginx -d your-domain.com
-
-# Auto-renewal
-sudo crontab -e
-# Add: 0 12 * * * /usr/bin/certbot renew --quiet
-```
-
-### 5.3 Database Backup
-
-Set up automated database backups:
-
-```bash
-# Create backup script
-nano backup-db.sh
-```
-
-```bash
-#!/bin/bash
-BACKUP_DIR="/home/ubuntu/backups"
-DATE=$(date +%Y%m%d_%H%M%S)
-CONTAINER_NAME="starvision-postgres-prod"
-
-mkdir -p $BACKUP_DIR
-
-docker exec $CONTAINER_NAME pg_dump -U starvision_user starvision > $BACKUP_DIR/backup_$DATE.sql
-
-# Keep only last 7 days of backups
-find $BACKUP_DIR -name "backup_*.sql" -mtime +7 -delete
-```
-
-Make it executable and add to crontab:
-
-```bash
-chmod +x backup-db.sh
-crontab -e
-# Add: 0 2 * * * /home/ubuntu/backup-db.sh
-```
-
-## Step 6: Monitoring and Maintenance
-
-### 6.1 View Logs
-
-```bash
-# Application logs
-docker-compose -f docker-compose.prod.yml logs -f app
-
-# Database logs
-docker-compose -f docker-compose.prod.yml logs -f postgres
-
-# Nginx logs
-sudo tail -f /var/log/nginx/access.log
-sudo tail -f /var/log/nginx/error.log
-```
-
-### 6.2 Update Application
-
-```bash
-# Pull latest changes
-git pull origin main
-
-# Rebuild and restart
+# Stop all services
 docker-compose -f docker-compose.prod.yml down
-docker build -t starvision-app:latest .
-docker-compose -f docker-compose.prod.yml up -d
+
+# Restart services
+docker-compose -f docker-compose.prod.yml restart
+
+# View logs
+docker-compose -f docker-compose.prod.yml logs -f
+
+# Update application
+git pull
+docker-compose -f docker-compose.prod.yml down
+docker-compose -f docker-compose.prod.yml up -d --build
 ```
 
-### 6.3 Scale Application
-
-To scale the application horizontally:
+### Database Management
 
 ```bash
-# Scale app service
-docker-compose -f docker-compose.prod.yml up -d --scale app=3
+# Access PostgreSQL directly
+docker exec -it starvision-postgres-prod psql -U starvision_user -d starvision
+
+# Backup database
+docker exec starvision-postgres-prod pg_dump -U starvision_user starvision > backup.sql
+
+# Restore database
+docker exec -i starvision-postgres-prod psql -U starvision_user -d starvision < backup.sql
+```
+
+### Payload CMS Commands
+
+```bash
+# View all available commands
+pnpm payload
+
+# Create a new user
+pnpm payload users:create
+
+# Reset admin password
+pnpm payload users:update
+
+# Generate types (if schema changes)
+pnpm generate:types
+
+# Generate import map
+pnpm generate:importmap
 ```
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **Port 3000 not accessible**
+1. **Port 3000 already in use**
 
-   - Check security group settings
-   - Verify container is running: `docker ps`
+   ```bash
+   # Find and kill process using port 3000
+   lsof -ti:3000 | xargs kill -9
+   ```
 
 2. **Database connection issues**
 
-   - Check DATABASE_URI in .env
-   - Verify PostgreSQL container is healthy: `docker-compose -f docker-compose.prod.yml ps`
+   - Verify `.env` file has correct database credentials
+   - Check if PostgreSQL container is running: `docker ps`
+   - Check database logs: `docker-compose -f docker-compose.postgres.prod.yml logs postgres`
 
 3. **Application not starting**
 
-   - Check logs: `docker-compose -f docker-compose.prod.yml logs app`
-   - Verify environment variables are set correctly
+   - Check application logs: `docker-compose -f docker-compose.prod.yml logs app`
+   - Verify all environment variables are set correctly
+   - Ensure database is running and accessible
 
-4. **Memory issues**
-   - Monitor memory usage: `docker stats`
-   - Consider upgrading EC2 instance type
+4. **Permission issues with media uploads**
+   ```bash
+   # Fix media directory permissions
+   sudo chown -R $USER:$USER ./media_data
+   chmod -R 755 ./media_data
+   ```
 
-### Useful Commands
+### Useful Debug Commands
 
 ```bash
-# Restart services
-docker-compose -f docker-compose.prod.yml restart
-
-# Stop all services
-docker-compose -f docker-compose.prod.yml down
-
-# Remove all containers and volumes
-docker-compose -f docker-compose.prod.yml down -v
+# Check container status
+docker ps -a
 
 # View resource usage
 docker stats
 
-# Access PostgreSQL directly
-docker exec -it starvision-postgres-prod psql -U starvision_user -d starvision
+# Check network connectivity
+docker network ls
+docker network inspect starvision-network
+
+# Access container shell
+docker exec -it starvision-app-prod /bin/bash
 ```
 
-## Security Best Practices
+## Environment Variables Reference
 
-1. **Change default passwords** in `.env` file
-2. **Use strong PAYLOAD_SECRET**
-3. **Restrict security group access** to specific IPs
-4. **Enable AWS CloudWatch** for monitoring
-5. **Set up automated backups**
-6. **Use HTTPS** in production
-7. **Regular security updates**
+| Variable                 | Description            | Required | Default                 |
+| ------------------------ | ---------------------- | -------- | ----------------------- |
+| `POSTGRES_DB`            | Database name          | Yes      | `starvision`            |
+| `POSTGRES_USER`          | Database user          | Yes      | `starvision_user`       |
+| `POSTGRES_PASSWORD`      | Database password      | Yes      | -                       |
+| `PAYLOAD_SECRET`         | Payload CMS secret key | Yes      | -                       |
+| `NEXT_PUBLIC_SERVER_URL` | Public server URL      | Yes      | `http://localhost:3000` |
+| `NODE_ENV`               | Node environment       | No       | `production`            |
+
+## Security Notes
+
+- Change default passwords in production
+- Use strong `PAYLOAD_SECRET` values
+- Restrict database access in production
+- Enable HTTPS for production deployments
+- Regularly update dependencies
 
 ## Support
 
@@ -320,8 +261,8 @@ For issues or questions:
 1. Check the logs first
 2. Verify environment variables
 3. Ensure all prerequisites are met
-4. Check AWS EC2 instance status
+4. Check Docker container status
 
 ---
 
-**Note**: This deployment guide assumes a basic setup. For production environments, consider additional security measures, monitoring, and backup strategies.
+**Note**: This deployment guide provides a streamlined approach. For production environments, consider additional security measures, monitoring, and backup strategies.
