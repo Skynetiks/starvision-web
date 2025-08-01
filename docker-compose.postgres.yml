@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: starvision-postgres
+    environment:
+      POSTGRES_USER: starvision_user
+      POSTGRES_PASSWORD: starvision_password
+      POSTGRES_DB: starvision
+    networks:
+      - starvision-network
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
+networks:
+  starvision-network:
+    name: starvision-network
+    driver: bridge
