@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CurrentYear } from "./ui/current-year";
 
 export default function Footer() {
   return (
@@ -185,7 +186,7 @@ export default function Footer() {
         </div>
         <div className="border-t mt-12 pt-8 text-center text-gray-500">
           <p>
-            &copy; {new Date().getFullYear()} CSG Advisory. All rights reserved.
+            &copy; <CurrentYear /> CSG Advisory. All rights reserved.
           </p>
         </div>
       </div>

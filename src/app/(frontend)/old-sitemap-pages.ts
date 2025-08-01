@@ -1,4 +1,3 @@
-import { blogPosts } from "@/lib/blogData";
 import { businessData } from "@/lib/businessData";
 import { MetadataRoute } from "next";
 
@@ -35,12 +34,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  const blogRoutes = blogPosts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.date ?? new Date()),
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  }));
+  const blogRoutes = [
+    {
+      url: `${baseUrl}/sitemap-blogs.xml`,
+      lastModified: new Date(),
+    },
+  ];
 
   const policyRoutes = ["/terms", "/privacy"].map((route) => ({
     url: `${baseUrl}${route}`,

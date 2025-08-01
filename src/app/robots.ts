@@ -1,13 +1,32 @@
-import type { MetadataRoute } from "next"
+import type { MetadataRoute } from "next";
+import { getServerSideURL } from "@/payload/utilities/getURL";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-      disallow: [],
-    },
-    sitemap: `https://${process.env.BASE_URL}/sitemap.xml`, // Needs to be updated with the actual URL
-    host: `https://${process.env.BASE_URL}`, // Needs to be updated with the actual URL
-  }
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: [
+          "/admin",
+          "/api",
+          "/_next",
+          "/payload",
+          "/graphql",
+          "/graphql-playground",
+        ],
+      },
+      {
+        userAgent: "Googlebot",
+        allow: "/",
+        disallow: ["/admin", "/api", "/_next", "/payload"],
+      },
+    ],
+    sitemap: [
+      `${getServerSideURL()}/sitemap.xml`,
+      `${getServerSideURL()}/sitemap-blogs.xml`,
+      `${getServerSideURL()}/sitemap-pages.xml`,
+    ],
+    host: getServerSideURL(),
+  };
 }
