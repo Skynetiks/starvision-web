@@ -10,7 +10,8 @@
     "lint": "next lint",
     "generate:importmap": "payload generate:importmap",
     "generate:types": "payload generate:types",
-    "payload": "payload"
+    "payload": "payload",
+    "post-install": "npm run generate:types && npm run generate:importmap"
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",

@@ -3,10 +3,6 @@
 import Cal, { getCalApi } from "@calcom/embed-react";
 import React, { useEffect } from "react";
 
-if(!process.env.NEXT_PUBLIC_CAL_LINK){
-  console.error("Please set NEXT_PUBLIC_CAL_LINK environment variable");
-}
-
 function ScheduleForm() {
   useEffect(() => {
     (async function () {
@@ -24,8 +20,8 @@ function ScheduleForm() {
   }, []);
   return (
     <Cal
-      namespace={process.env.NEXT_PUBLIC_CAL_LINK!.split("/")[1]}
-      calLink={process.env.NEXT_PUBLIC_CAL_LINK!}
+      namespace={process.env.NEXT_PUBLIC_CAL_LINK?.split("/")[1] || ""}
+      calLink={process.env.NEXT_PUBLIC_CAL_LINK || ""}
       style={{ width: "100%", height: "100%", overflow: "scroll" }}
       config={{ layout: "month_view", theme: "light" }}
     />

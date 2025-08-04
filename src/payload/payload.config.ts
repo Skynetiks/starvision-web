@@ -59,11 +59,16 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI || "",
+      max: 20, // Maximum number of connections in the pool
+      idleTimeoutMillis: 30000, // Close idle connections after 30 seconds
+      connectionTimeoutMillis: 2000, // Return an error after 2 seconds if connection could not be established
     },
   }),
   // database-adapter-config-end
   collections: [Blogs, Categories, Media, Users],
   cors: [getServerSideURL()].filter(Boolean),
+  csrf: [getServerSideURL()].filter(Boolean),
+
   globals: [],
   plugins: [
     ...plugins,

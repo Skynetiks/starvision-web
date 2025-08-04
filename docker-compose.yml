@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: starvision-app
+    environment:
+      NODE_ENV: production
+      DATABASE_URI: postgresql://starvision_user:starvision_password@starvision-postgres:5432/starvision
+      NEXT_PUBLIC_SERVER_URL: http://localhost:3000
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./media_data:/app/media
+    networks:
+      - starvision-network
+    restart: unless-stopped
+
+networks:
+  starvision-network:
+    external: true
+
+volumes:
+  media_data:

@@ -16,7 +16,13 @@ export default function ScheduleConsultation() {
           </div>
         </div>
         <div className="py-5 md:px-1">
-          <ScheduleForm />
+          {process.env.NEXT_PUBLIC_CAL_LINK ? (
+            <ScheduleForm />
+          ) : (
+            <div className="text-white">
+              <p>No calendar link found in env</p>
+            </div>
+          )}
         </div>
       </div>
     </section>

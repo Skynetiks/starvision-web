@@ -3,7 +3,7 @@ import type {
   CollectionAfterDeleteHook,
 } from "payload";
 
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 
 import type { Blog } from "@/payload/payload-types";
 
@@ -17,22 +17,24 @@ export const revalidatePost: CollectionAfterChangeHook<Blog> = ({
       const path = `/blogs/${doc.slug}`;
 
       payload.logger.info(`Revalidating blog at path: ${path}`);
+      revalidatePath("/blogs");
+      revalidatePath("/blogs/page/[pageNumber]", "page");
 
       revalidatePath(path);
-      revalidateTag("blogs-sitemap");
+
+      // If the post was previously published, we need to revalidate the old path
+      if (previousDoc._status === "published" && doc._status !== "published") {
+        const oldPath = `/blogs/${previousDoc.slug}`;
+
+        payload.logger.info(`Revalidating old blog at path: ${oldPath}`);
+
+        revalidatePath(oldPath);
+        revalidatePath("/blogs/page/[pageNumber]", "page");
+        revalidatePath("/blogs");
+      }
     }
-
-    // If the post was previously published, we need to revalidate the old path
-    if (previousDoc._status === "published" && doc._status !== "published") {
-      const oldPath = `/blogs/${previousDoc.slug}`;
-
-      payload.logger.info(`Revalidating old blog at path: ${oldPath}`);
-
-      revalidatePath(oldPath);
-      revalidateTag("blogs-sitemap");
-    }
+    return doc;
   }
-  return doc;
 };
 
 export const revalidateDelete: CollectionAfterDeleteHook<Blog> = ({
@@ -43,7 +45,8 @@ export const revalidateDelete: CollectionAfterDeleteHook<Blog> = ({
     const path = `/blogs/${doc?.slug}`;
 
     revalidatePath(path);
-    revalidateTag("blogs-sitemap");
+    revalidatePath("blogs");
+    revalidatePath("/blogs/page/[pageNumber]", "page");
   }
 
   return doc;
