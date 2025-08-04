@@ -103,12 +103,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     <picture className={cn(pictureClassName)}>
       <NextImage
         alt={alt || ""}
-        className={cn(
-          "transition-opacity duration-300",
-          !imageLoaded && "opacity-0",
-          imageLoaded && "opacity-100",
-          imgClassName
-        )}
+        className={cn(imgClassName)}
         fill={fill}
         height={!fill ? height : undefined}
         placeholder="blur"

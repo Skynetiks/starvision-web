@@ -1,12 +1,16 @@
-import GradientText from "@/components/ui/gradient-text";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const CustomLogo = () => (
-  <Link href="/admin" className="flex items-center gap-2">
-    <span className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
-      CSG <GradientText>Advisory</GradientText>
-    </span>
+  <Link href="/admin" className="flex items-center  gap-2">
+    <Image
+      src="/images/logo.png"
+      alt="Logo"
+      width={300}
+      height={40}
+      className="h-auto"
+    />
   </Link>
 );
 

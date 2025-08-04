@@ -65,11 +65,12 @@ export const FeaturedCard: React.FC<{
     >
       <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-stretch h-full">
         {/* Left Image */}
-        <div className="relative h-[300px] lg:h-full w-full rounded-xl overflow-hidden">
+        <div className="relative  min-h-[300px] lg:h-full w-full rounded-xl overflow-hidden">
           <MediaComponent
             resource={heroImageToUse}
             size="50vw"
             fill={true}
+            htmlElement={null}
             imgClassName="object-cover w-full h-full"
           />
         </div>
