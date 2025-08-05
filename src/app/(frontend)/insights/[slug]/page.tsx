@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { RelatedPostCard } from "@/components/related-post-card";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
-import React, { cache } from "react";
+import React from "react";
 import RichText from "@/payload/components/RichText";
 
 import { BlogHero } from "@/payload/heros/BlogHero";
@@ -17,6 +17,7 @@ import { Category } from "@/payload/payload-types";
 
 // export const dynamic = "force-static";
 // export const revalidate = 600;
+export const revalidate = false;
 
 export async function generateStaticParams() {
   return [];
@@ -100,7 +101,7 @@ export async function generateMetadata({
   return generateMeta({ doc: blog });
 }
 
-const queryBlogBySlug = cache(async ({ slug }: { slug: string }) => {
+const queryBlogBySlug = async ({ slug }: { slug: string }) => {
   try {
     const payload = await getPayload({ config: configPromise });
     const { isEnabled: draft } = await draftMode();
@@ -129,29 +130,27 @@ const queryBlogBySlug = cache(async ({ slug }: { slug: string }) => {
     // Return null to trigger notFound()
     return null;
   }
-});
+};
 
-const getRelatedBlogs = cache(
-  async ({
-    slug,
-    categories,
-  }: {
-    slug: string;
-    categories: (number | Category)[];
-  }) => {
-    const payload = await getPayload({ config: configPromise });
-    const relatedBlogs = await payload.find({
-      collection: "blogs",
-      draft: false,
-      overrideAccess: false,
-      where: {
-        slug: { not_equals: slug },
-        ...(categories.length > 0 ? { categories: { in: categories } } : {}),
-      },
-      limit: 3,
-      depth: 2,
-      sort: "publishedAt",
-    });
-    return relatedBlogs.docs;
-  }
-);
+const getRelatedBlogs = async ({
+  slug,
+  categories,
+}: {
+  slug: string;
+  categories: (number | Category)[];
+}) => {
+  const payload = await getPayload({ config: configPromise });
+  const relatedBlogs = await payload.find({
+    collection: "blogs",
+    draft: false,
+    overrideAccess: false,
+    where: {
+      slug: { not_equals: slug },
+      ...(categories.length > 0 ? { categories: { in: categories } } : {}),
+    },
+    limit: 3,
+    depth: 2,
+    sort: "publishedAt",
+  });
+  return relatedBlogs.docs;
+};

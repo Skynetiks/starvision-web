@@ -28,18 +28,20 @@ export const revalidatePost: CollectionAfterChangeHook<Blog> = async ({
       const path = `/insights/${doc.slug}`;
 
       payload.logger.info(`Revalidating blog at path: ${path}`);
-      revalidatePath("/insights");
-      revalidatePath("/insights/page/[pageNumber]", "page");
       revalidatePath(path);
       relatedBlogsPaths.forEach((path) => {
         revalidatePath(path);
       });
-    } else {
-      const path = `/insights/${doc.slug}`;
-      payload.logger.info(`Revalidating blog at path: ${path}`);
-      revalidatePath("/insights");
-      revalidatePath("/insights/page/[pageNumber]", "page");
     }
+    if (previousDoc._status === "published" && doc._status !== "published") {
+      const oldPath = `/insights/${previousDoc.slug}`;
+
+      payload.logger.info(`Revalidating old post at path: ${oldPath}`);
+
+      revalidatePath(oldPath);
+    }
+    revalidatePath("/insights");
+    revalidatePath("/insights/page/[pageNumber]", "page");
     return doc;
   }
 };
