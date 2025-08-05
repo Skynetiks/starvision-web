@@ -9,8 +9,8 @@ import { FeaturedCard } from "@/payload/components/Card/featured-card";
 import { BlogListingBreadcrumbs } from "@/payload/components/Breadcrumbs";
 import CustomError from "@/components/custom-error";
 
-// export const dynamic = "force-static";
-// export const revalidate = 600;
+export const dynamic = "force-dynamic";
+// export const revalidate = 0;
 
 export default async function Page() {
   try {
@@ -29,6 +29,7 @@ export default async function Page() {
       where: { featured: { equals: true } },
       limit: 1,
       depth: 2,
+      sort: "publishedAt",
     });
     const featuredBlogData = featuredBlog.docs?.[0];
 
@@ -36,17 +37,21 @@ export default async function Page() {
       collection: "blogs",
       draft: false,
       overrideAccess: false,
-      where: { featured: { not_equals: true } },
+      where: {
+        ...(featuredBlogData?.id
+          ? { id: { not_equals: featuredBlogData.id } }
+          : {}),
+      },
       depth: 2,
       limit: 12,
       page: 1,
+      sort: "publishedAt",
     });
     const blogs = blogsPayload.docs;
 
     if (!featuredBlogData && !blogs) {
       throw new Error("No blog posts available");
     }
-
     return (
       <main className="flex flex-col min-h-screen">
         {/* Hero Section */}
@@ -137,17 +142,10 @@ export default async function Page() {
   } catch (error) {
     // Return a user-friendly error page
     return (
-      <main className="flex flex-col min-h-screen">
-        {/* Error Section */}
-        <section className="w-full flex justify-center py-12 md:py-24">
-          <div className="container px-4 md:px-6">
-            <CustomError
-              title="No insights available"
-              message="We're currently working on creating valuable insights for you. Stay tuned."
-            />
-          </div>
-        </section>
-      </main>
+      <CustomError
+        title="No insights available"
+        message="We're currently working on creating valuable insights for you. Stay tuned."
+      />
     );
   }
 }

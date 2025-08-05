@@ -112,7 +112,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         quality={100}
         loading={loading}
         sizes={sizes}
-        src={src}
+        src={src || "/images/team.webp"}
         width={!fill ? width : undefined}
         onLoad={() => setImageLoaded(true)}
         onError={() => setImageError(true)}

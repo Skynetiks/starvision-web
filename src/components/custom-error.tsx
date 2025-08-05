@@ -9,7 +9,7 @@ export default function CustomError({
   message?: string;
 }) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-16 text-center">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100svh)] text-center">
       <div className="max-w-md mx-auto">
         {/* Icon */}
         <div className="mb-6">

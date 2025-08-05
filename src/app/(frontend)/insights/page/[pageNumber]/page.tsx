@@ -9,8 +9,8 @@ import { notFound } from "next/navigation";
 import { BlogListingBreadcrumbs } from "@/payload/components/Breadcrumbs";
 import CustomError from "@/components/custom-error";
 
-export const dynamic = "force-static";
-export const revalidate = 600;
+export const dynamic = "force-dynamic";
+// export const revalidate = 600;
 
 type Args = {
   params: Promise<{
@@ -131,28 +131,10 @@ export default async function Page({ params: paramsPromise }: Args) {
 
     // Return a user-friendly error page
     return (
-      <main className="flex flex-col min-h-screen">
-        <section className="w-full flex justify-center py-12 md:py-24 lg:py-32 animate-gradient bg-gradient-to-r from-logo-primary to-logo-secondary">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-white">
-                  CSG Advisory Insights
-                </h1>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="w-full flex justify-center py-12 md:py-24">
-          <div className="container px-4 md:px-6">
-            <CustomError
-              title="No insights available"
-              message="We're currently working on creating valuable insights for you. Check back soon for the latest insights on international business registration and global compliance."
-            />
-          </div>
-        </section>
-      </main>
+      <CustomError
+        title="No insights available"
+        message="We're currently working on creating valuable insights for you. Check back soon for the latest insights on international business registration and global compliance."
+      />
     );
   }
 }

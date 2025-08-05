@@ -3,6 +3,7 @@ import { Card } from "@/payload/components/Card";
 import type { Blog } from "@/payload/payload-types";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
+import { SelectSeparator } from "@/components/ui/select";
 
 interface RelatedPostCardProps {
   currentPost: Blog;
@@ -21,6 +22,8 @@ async function getRelatedPosts(currentPost: Blog): Promise<Blog[]> {
     if (categoryIds.length > 0) {
       const categoryResult = await payload.find({
         collection: "blogs",
+        draft: false,
+        overrideAccess: false,
         where: {
           categories: {
             in: categoryIds,
@@ -40,6 +43,8 @@ async function getRelatedPosts(currentPost: Blog): Promise<Blog[]> {
   if (posts.length < 3) {
     const latestResult = await payload.find({
       collection: "blogs",
+      draft: false,
+      overrideAccess: false,
       where: {
         id: {
           not_equals: currentPost.id, // Exclude current post
@@ -73,24 +78,31 @@ export const RelatedPostCard: React.FC<RelatedPostCardProps> = async ({
   }
 
   return (
-    <div className={`space-y-6 ${className}`}>
-      <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Related Articles
-        </h2>
-        <p className="text-gray-600">Explore more insights and expert advice</p>
+    <>
+      <div className="container py-20 mx-auto">
+        <SelectSeparator />
       </div>
+      <div className={`space-y-6 ${className}`}>
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Related Articles
+          </h2>
+          <p className="text-gray-600">
+            Explore more insights and expert advice
+          </p>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {relatedPosts.map((post) => (
-          <Card
-            key={post.id}
-            doc={post}
-            relationTo="insights"
-            showCategories={true}
-          />
-        ))}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {relatedPosts.map((post) => (
+            <Card
+              key={post.id}
+              doc={post}
+              relationTo="insights"
+              showCategories={true}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };

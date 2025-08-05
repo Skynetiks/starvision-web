@@ -8,16 +8,14 @@ import RichText from "@/payload/components/RichText";
 
 import { BlogHero } from "@/payload/heros/BlogHero";
 import { generateMeta } from "@/payload/utilities/generateMeta";
-import { SelectSeparator } from "@/components/ui/select";
 import CustomError from "@/components/custom-error";
 import { draftMode } from "next/headers";
 import { LivePreviewListener } from "@/payload/components/LivePreviewListener";
 import { notFound } from "next/navigation";
-import { Category } from "@/payload/payload-types";
 
-// export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 // export const revalidate = 600;
-export const revalidate = false;
+// export const revalidate = 0;
 
 export async function generateStaticParams() {
   return [];
@@ -35,11 +33,6 @@ export default async function Post({ params: paramsPromise }: Args) {
 
   try {
     const blog = await queryBlogBySlug({ slug });
-    const relatedBlogs = await getRelatedBlogs({
-      slug,
-      categories: blog?.categories || [],
-    });
-
     if (!blog) {
       notFound();
     }
@@ -61,17 +54,10 @@ export default async function Post({ params: paramsPromise }: Args) {
           </div>
         </div>
 
-        {relatedBlogs.length > 0 && (
-          <>
-            <div className="container py-20 mx-auto">
-              <SelectSeparator />
-            </div>
-            <RelatedPostCard
-              currentPost={blog}
-              className="mt-10 pb-10 max-w-7xl container px-6 mx-auto"
-            />
-          </>
-        )}
+        <RelatedPostCard
+          currentPost={blog}
+          className="mt-10 pb-10 max-w-7xl container px-6 mx-auto"
+        />
       </article>
     );
   } catch (error) {
@@ -79,15 +65,13 @@ export default async function Post({ params: paramsPromise }: Args) {
 
     // Return a user-friendly error page
     return (
-      <div className="pt-16 pb-20 h-[calc(100svh)] flex items-center justify-center">
+      <>
         {draft && <LivePreviewListener />}
-        <div className="container mx-auto px-4">
-          <CustomError
-            title="Insight Not Found"
-            message="The insight you are looking for does not exist."
-          />
-        </div>
-      </div>
+        <CustomError
+          title="Insight Not Found"
+          message="The insight you are looking for does not exist."
+        />
+      </>
     );
   }
 }
@@ -105,7 +89,6 @@ const queryBlogBySlug = async ({ slug }: { slug: string }) => {
   try {
     const payload = await getPayload({ config: configPromise });
     const { isEnabled: draft } = await draftMode();
-
     const result = await payload.find({
       collection: "blogs",
       limit: 1,
@@ -130,27 +113,4 @@ const queryBlogBySlug = async ({ slug }: { slug: string }) => {
     // Return null to trigger notFound()
     return null;
   }
-};
-
-const getRelatedBlogs = async ({
-  slug,
-  categories,
-}: {
-  slug: string;
-  categories: (number | Category)[];
-}) => {
-  const payload = await getPayload({ config: configPromise });
-  const relatedBlogs = await payload.find({
-    collection: "blogs",
-    draft: false,
-    overrideAccess: false,
-    where: {
-      slug: { not_equals: slug },
-      ...(categories.length > 0 ? { categories: { in: categories } } : {}),
-    },
-    limit: 3,
-    depth: 2,
-    sort: "publishedAt",
-  });
-  return relatedBlogs.docs;
 };
