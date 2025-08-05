@@ -21,7 +21,7 @@ export const FeaturedCard: React.FC<{
   alignItems?: "center";
   className?: string;
   doc?: FeaturedCardPostData;
-  relationTo?: "blogs";
+  relationTo?: "insights";
   showCategories?: boolean;
   title?: string;
 }> = (props) => {

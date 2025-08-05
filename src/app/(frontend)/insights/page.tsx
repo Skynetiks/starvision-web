@@ -9,8 +9,8 @@ import { FeaturedCard } from "@/payload/components/Card/featured-card";
 import { BlogListingBreadcrumbs } from "@/payload/components/Breadcrumbs";
 import CustomError from "@/components/custom-error";
 
-export const dynamic = "force-static";
-export const revalidate = 600;
+// export const dynamic = "force-static";
+// export const revalidate = 600;
 
 export default async function Page() {
   try {
@@ -77,7 +77,7 @@ export default async function Page() {
               <div className="max-w-7xl mx-auto">
                 <FeaturedCard
                   doc={featuredBlogData}
-                  relationTo="blogs"
+                  relationTo="insights"
                   showCategories={true}
                 />
               </div>
