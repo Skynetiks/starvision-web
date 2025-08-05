@@ -204,7 +204,7 @@ export function Header() {
             onClick={() => setIsMobileMenuOpen(false)}
             className="relative text-neutral-600 dark:text-neutral-300 py-2"
           >
-            <span className="block">Contact</span>
+            <span className="block">Contact Us</span>
           </Link>
 
           {/* Mobile CTA Button */}

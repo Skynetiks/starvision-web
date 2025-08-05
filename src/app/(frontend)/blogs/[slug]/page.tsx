@@ -57,6 +57,7 @@ type Args = {
 export default async function Post({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode();
   const { slug = "" } = await paramsPromise;
+  const relatedBlogs = await getRelatedBlogs({ slug });
 
   try {
     const blog = await queryBlogBySlug({ slug });
@@ -81,14 +82,18 @@ export default async function Post({ params: paramsPromise }: Args) {
             />
           </div>
         </div>
-        <div className="container py-20 mx-auto">
-          <SelectSeparator />
-        </div>
 
-        <RelatedPostCard
-          currentPost={blog}
-          className="mt-10 pb-10 max-w-7xl container px-6 mx-auto"
-        />
+        {relatedBlogs.length > 0 && (
+          <>
+            <div className="container py-20 mx-auto">
+              <SelectSeparator />
+            </div>
+            <RelatedPostCard
+              currentPost={blog}
+              className="mt-10 pb-10 max-w-7xl container px-6 mx-auto"
+            />
+          </>
+        )}
       </article>
     );
   } catch (error) {
@@ -145,4 +150,18 @@ const queryBlogBySlug = cache(async ({ slug }: { slug: string }) => {
     // Return null to trigger notFound()
     return null;
   }
+});
+
+const getRelatedBlogs = cache(async ({ slug }: { slug: string }) => {
+  const payload = await getPayload({ config: configPromise });
+  const relatedBlogs = await payload.find({
+    collection: "blogs",
+    draft: false,
+    overrideAccess: false,
+    where: { slug: { not_equals: slug } },
+    limit: 3,
+    depth: 2,
+    sort: "publishedAt",
+  });
+  return relatedBlogs.docs;
 });
