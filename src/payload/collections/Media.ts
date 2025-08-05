@@ -55,12 +55,13 @@ const Media: CollectionConfig = {
         position: "centre",
       },
     ],
-    adminThumbnail: ({ doc }) => `${process.env.R2_SERVER}/${doc.filename}`,
+    adminThumbnail: "thumbnail",
   },
   admin: {
     useAsTitle: "title",
     group: "Media",
     enableRichTextRelationship: true,
+
     defaultColumns: ["fileName", "altDescription", "thumbnailUrl", "title"],
   },
 

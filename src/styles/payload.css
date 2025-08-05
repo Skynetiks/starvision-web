@@ -16,7 +16,7 @@
   /* Variables */
   --theme-bg: white;
   --theme-input-bg: var(--theme-elevation-0);
-  --theme-text: var(--theme-elevation-800);
+  --theme-text: black;
   --theme-overlay: rgba(5, 5, 5, 0.5);
   --font-body: "Suisse Intl", system-ui;
   --font-mono: monospace;
@@ -158,16 +158,16 @@
 
 /* Nav Button */
 .hamburger__wrapper {
-  background-color: var(--theme-elevation-100);
-  border: 1px solid var(--theme-elevation-200);
+  /* background-color: var(--theme-elevation-100); */
+  /* border: 1px solid var(--theme-elevation-200); */
 }
 .hamburger:before {
-  background-color: var(--theme-elevation-100);
-  border: 1px solid var(--theme-elevation-200);
+  /* background-color: var(--theme-elevation-100); */
+  /* border: 1px solid var(--theme-elevation-200); */
 }
 .hamburger:after {
-  background-color: var(--theme-elevation-100);
-  border: 1px solid var(--theme-elevation-200);
+  /* background-color: var(--theme-elevation-100); */
+  /* border: 1px solid var(--theme-elevation-200); */
 }
 
 /* Nav Group Toggle (empty) */
@@ -191,13 +191,13 @@
 
 /* Dashboard Card Labels */
 .dashboard__label {
-  fontfamily: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  /* fontfamily: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; */
 }
 
 /* Dashboard Card */
 .card {
-  background-color: var(--theme-elevation-100);
-  border: 1px solid var(--theme-elevation-200);
+  background-color: var(--theme-elevation-0);
+  border: 1px solid var(--theme-elevation-100);
   border-radius: 10px;
 }
 
@@ -218,7 +218,23 @@
 .btn--style-primary {
   background-color: var(--theme-elevation-800);
   border-radius: 20px;
+  /* color: white; */
   /* padding: 0.2rem; */
+}
+.btn--style-secondary {
+  color: var(--theme-elevation-800);
+  border: 1px solid var(--theme-elevation-800);
+  border-radius: 20px;
+}
+.btn--style-secondary.btn--disabled {
+  color: var(--theme-elevation-400);
+}
+.btn--style-secondary:hover {
+  color: var(--theme-elevation-900);
+  border: 1px solid var(--theme-elevation-900);
+}
+.btn--style-primary.btn--disabled {
+  color: white;
 }
 
 /* Pill (empty) */
@@ -227,7 +243,7 @@
 
 /* Input Field */
 .field-type.text:not(.has-many) input {
-  border: 1px solid var(--theme-elevation-200);
+  border: 1px solid var(--theme-elevation-0);
 }
 
 /* Document Header (empty) */
@@ -280,7 +296,7 @@
 
 /* Table Row Odd */
 .table tbody tr:nth-child(odd) {
-  background-color: var(--theme-elevation-50);
+  background-color: var(--theme-elevation-0);
 }
 
 /* Search Filter Wrapper (empty) */

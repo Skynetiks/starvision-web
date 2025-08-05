@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    console.log(process.env.DATABASE_URI);
     // You can add database connectivity check here if needed
     return NextResponse.json(
       {

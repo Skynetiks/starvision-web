@@ -7,7 +7,7 @@ import React from "react";
 import { Card } from "@/payload/components/Card";
 import { notFound } from "next/navigation";
 import { BlogListingBreadcrumbs } from "@/payload/components/Breadcrumbs";
-import { ErrorPage } from "@/components/error-page";
+import CustomError from "@/components/custom-error";
 
 export const dynamic = "force-static";
 export const revalidate = 600;
@@ -50,14 +50,14 @@ export default async function Page({ params: paramsPromise }: Args) {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               {/* Breadcrumbs */}
-              <BlogListingBreadcrumbs
+              {/* <BlogListingBreadcrumbs
                 currentPage={sanitizedPageNumber}
                 className="text-white/80 mb-4"
-              />
+              /> */}
 
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-white">
-                  CSG Advisory Blog
+                  CSG Advisory Insights
                 </h1>
                 <p className="max-w-[700px] text-gray-100 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Stay updated with the latest insights on international
@@ -75,11 +75,12 @@ export default async function Page({ params: paramsPromise }: Args) {
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-gray-900">
-                  Latest Articles
+                  Latest Insights
                 </h2>
                 <p className="max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Explore our latest insights and expert advice on international
-                  business registration.
+                  business registration, compliance, and global expansion
+                  strategies.
                 </p>
               </div>
             </div>
@@ -116,18 +117,9 @@ export default async function Page({ params: paramsPromise }: Args) {
                 </div>
               </>
             ) : (
-              <ErrorPage
-                title="No blog posts available"
-                message="We're currently working on creating valuable content for you. Check back soon for the latest insights on international business registration and global compliance."
-                primaryAction={{
-                  href: "/blogs",
-                  label: "Back to Blogs",
-                }}
-                secondaryAction={{
-                  href: "/",
-                  label: "Return to Home",
-                }}
-                icon="info"
+              <CustomError
+                title="No insights available"
+                message="We're currently working on creating valuable insights for you. Check back soon for the latest insights on international business registration and global compliance."
               />
             )}
           </div>
@@ -145,7 +137,7 @@ export default async function Page({ params: paramsPromise }: Args) {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-white">
-                  CSG Advisory Blog
+                  CSG Advisory Insights
                 </h1>
               </div>
             </div>
@@ -154,18 +146,9 @@ export default async function Page({ params: paramsPromise }: Args) {
 
         <section className="w-full flex justify-center py-12 md:py-24">
           <div className="container px-4 md:px-6">
-            <ErrorPage
-              title="Service Temporarily Unavailable"
-              message="We're experiencing technical difficulties loading the blog page. Please try again later."
-              primaryAction={{
-                href: "/blogs",
-                label: "Back to Blogs",
-              }}
-              secondaryAction={{
-                href: "/",
-                label: "Return to Home",
-              }}
-              icon="error"
+            <CustomError
+              title="No insights available"
+              message="We're currently working on creating valuable insights for you. Check back soon for the latest insights on international business registration and global compliance."
             />
           </div>
         </section>
@@ -178,7 +161,7 @@ export async function generateMetadata({
   params: paramsPromise,
 }: Args): Promise<Metadata> {
   const { pageNumber } = await paramsPromise;
-  const title = `Blog - Page ${pageNumber} | CSG Advisory`;
+  const title = `Insights - Page ${pageNumber} | CSG Advisory`;
   const description = `Page ${pageNumber} of our blog featuring insights on international business registration, compliance, and global expansion strategies.`;
   const fullUrl = `https://${
     process.env.BASE_URL || "csgadvisory.com"
@@ -218,7 +201,7 @@ export async function generateMetadata({
           url: "/images/team.webp",
           width: 1200,
           height: 630,
-          alt: "CSG Advisory Blog - Page " + pageNumber,
+          alt: "CSG Advisory Insights - Page " + pageNumber,
         },
       ],
       creator: "@csgadvisory",

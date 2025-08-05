@@ -20,7 +20,6 @@ export const generateMetadata = ({
   searchParams,
 }: Args): Promise<Metadata> =>
   generatePageMetadata({ config, params, searchParams });
-console.log(process.env.DATABASE_URI);
 const Page = ({ params, searchParams }: Args) =>
   RootPage({ config, params, searchParams, importMap });
 

@@ -11,24 +11,15 @@ import { PayloadAdminBar } from "@payloadcms/admin-bar";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import "./index.scss";
-
 import { getClientSideURL } from "@/payload/utilities/getURL";
+import CustomLogo from "@/payload/site/logo";
 
 const baseClass = "admin-bar";
 
 const collectionLabels = {
-  pages: {
-    plural: "Pages",
-    singular: "Page",
-  },
-  posts: {
+  blogs: {
     plural: "Blogs",
     singular: "Blog",
-  },
-  projects: {
-    plural: "Projects",
-    singular: "Project",
   },
 };
 
@@ -53,27 +44,48 @@ export const AdminBar: React.FC<{
 
   return (
     <div
-      className={cn(baseClass, "py-2 bg-black text-white", {
-        block: show,
-        hidden: !show,
-      })}
+      className={cn(
+        baseClass,
+        "py-2 bg-transparent text-foreground border-b border-primary/20",
+        {
+          block: show,
+          hidden: !show,
+        }
+      )}
     >
-      <div className="container">
+      <div className="w-full flex items-center justify-center !px-4">
         <PayloadAdminBar
           {...adminBarProps}
-          className="py-2 text-white"
+          className="py-2 text-foreground"
           classNames={{
-            controls: "font-medium text-white",
-            logo: "text-white",
-            user: "text-white",
+            controls: "font-medium text-foreground",
+            logo: "text-foreground",
+            user: "text-foreground",
+            preview: "rounded-md !p-1 !px-2 !bg-primary/40 !text-foreground",
+            logout: "rounded-md !p-1 !px-2 !bg-white !text-primary",
+          }}
+          createProps={{
+            style: {
+              display: "none",
+            },
+          }}
+          logoutProps={{
+            style: {
+              display: "none",
+            },
           }}
           cmsURL={getClientSideURL()}
           collectionSlug={collection}
           collectionLabels={{
-            plural: collectionLabels[collection]?.plural || "Pages",
-            singular: collectionLabels[collection]?.singular || "Page",
+            plural: collectionLabels[collection]?.plural || "Blogs",
+            singular: collectionLabels[collection]?.singular || "Blog",
           }}
-          logo={<Title />}
+          logo={
+            <div className="flex items-center gap-2">
+              {/* <CustomLogo /> */}
+              <span className="text-foreground">Go To Dashboard(Admin)</span>
+            </div>
+          }
           onAuthChange={onAuthChange}
           onPreviewExit={() => {
             fetch("/next/exit-preview").then(() => {

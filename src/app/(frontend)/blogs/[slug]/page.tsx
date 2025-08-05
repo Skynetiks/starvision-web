@@ -8,9 +8,11 @@ import RichText from "@/payload/components/RichText";
 
 import { BlogHero } from "@/payload/heros/BlogHero";
 import { generateMeta } from "@/payload/utilities/generateMeta";
-import { notFound } from "next/navigation";
 import { SelectSeparator } from "@/components/ui/select";
-import { ErrorPage } from "@/components/error-page";
+import CustomError from "@/components/custom-error";
+import { draftMode } from "next/headers";
+import { LivePreviewListener } from "@/payload/components/LivePreviewListener";
+import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
   if (!process.env.DATABASE_URI) {
@@ -53,6 +55,7 @@ type Args = {
 };
 
 export default async function Post({ params: paramsPromise }: Args) {
+  const { isEnabled: draft } = await draftMode();
   const { slug = "" } = await paramsPromise;
 
   try {
@@ -65,10 +68,10 @@ export default async function Post({ params: paramsPromise }: Args) {
     return (
       <article className="pt-16 pb-20">
         {/* Allows redirects for valid pages too */}
-
+        {draft && <LivePreviewListener />}
         <BlogHero blog={blog} />
 
-        <div className="flex flex-col items-center gap-4 pt-16">
+        <div className="flex flex-col items-center gap-4 pt-16 min-h-[calc(70svh)]">
           <div className="container p-4">
             <RichText
               className="max-w-[48rem] mx-auto"
@@ -93,16 +96,11 @@ export default async function Post({ params: paramsPromise }: Args) {
 
     // Return a user-friendly error page
     return (
-      <div className="pt-16 pb-20">
+      <div className="pt-16 pb-20 h-[calc(100svh)] flex items-center justify-center">
         <div className="container mx-auto px-4">
-          <ErrorPage
-            title="Service Temporarily Unavailable"
-            message="We're experiencing technical difficulties. Please try again later."
-            primaryAction={{
-              href: "/blogs",
-              label: "Return to Blogs",
-            }}
-            icon="error"
+          <CustomError
+            title="Insight Not Found"
+            message="The insight you are looking for does not exist."
           />
         </div>
       </div>
@@ -122,11 +120,12 @@ export async function generateMetadata({
 const queryBlogBySlug = cache(async ({ slug }: { slug: string }) => {
   try {
     const payload = await getPayload({ config: configPromise });
-
+    const { isEnabled: draft } = await draftMode();
     const result = await payload.find({
       collection: "blogs",
       limit: 1,
-      overrideAccess: false,
+      draft,
+      overrideAccess: draft,
       pagination: false,
       populate: {
         categories: {
