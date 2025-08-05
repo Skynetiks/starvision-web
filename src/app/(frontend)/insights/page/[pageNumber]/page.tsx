@@ -102,7 +102,7 @@ export default async function Page({ params: paramsPromise }: Args) {
                     <Card
                       key={post.id}
                       doc={post}
-                      relationTo="blogs"
+                      relationTo="insights"
                       showCategories={true}
                     />
                   ))}
@@ -165,7 +165,7 @@ export async function generateMetadata({
   const description = `Page ${pageNumber} of our blog featuring insights on international business registration, compliance, and global expansion strategies.`;
   const fullUrl = `https://${
     process.env.BASE_URL || "csgadvisory.com"
-  }/blogs/page/${pageNumber}`;
+  }/insights/page/${pageNumber}`;
 
   return {
     title,

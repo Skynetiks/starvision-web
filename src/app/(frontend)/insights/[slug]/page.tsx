@@ -13,39 +13,13 @@ import CustomError from "@/components/custom-error";
 import { draftMode } from "next/headers";
 import { LivePreviewListener } from "@/payload/components/LivePreviewListener";
 import { notFound } from "next/navigation";
+import { Category } from "@/payload/payload-types";
+
+// export const dynamic = "force-static";
+// export const revalidate = 600;
 
 export async function generateStaticParams() {
-  if (!process.env.DATABASE_URI) {
-    console.log(
-      `No DATABASE_URI found in ${process.env.NODE_ENV} environment, skipping static generation for blogs`
-    );
-    return [];
-  }
-  try {
-    const payload = await getPayload({ config: configPromise });
-    const blogs = await payload.find({
-      collection: "blogs",
-      draft: false,
-      limit: 1000,
-      overrideAccess: false,
-      pagination: false,
-      select: {
-        slug: true,
-      },
-    });
-
-    const params = blogs.docs.map(({ slug }) => {
-      return { slug };
-    });
-
-    return params;
-  } catch (error) {
-    console.error("Failed to generate static params for blogs:", error);
-
-    // Return empty array to allow build to succeed
-    // This means no static pages will be pre-generated
-    return [];
-  }
+  return [];
 }
 
 type Args = {
@@ -57,10 +31,13 @@ type Args = {
 export default async function Post({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode();
   const { slug = "" } = await paramsPromise;
-  const relatedBlogs = await getRelatedBlogs({ slug });
 
   try {
     const blog = await queryBlogBySlug({ slug });
+    const relatedBlogs = await getRelatedBlogs({
+      slug,
+      categories: blog?.categories || [],
+    });
 
     if (!blog) {
       notFound();
@@ -102,6 +79,7 @@ export default async function Post({ params: paramsPromise }: Args) {
     // Return a user-friendly error page
     return (
       <div className="pt-16 pb-20 h-[calc(100svh)] flex items-center justify-center">
+        {draft && <LivePreviewListener />}
         <div className="container mx-auto px-4">
           <CustomError
             title="Insight Not Found"
@@ -126,6 +104,7 @@ const queryBlogBySlug = cache(async ({ slug }: { slug: string }) => {
   try {
     const payload = await getPayload({ config: configPromise });
     const { isEnabled: draft } = await draftMode();
+
     const result = await payload.find({
       collection: "blogs",
       limit: 1,
@@ -152,16 +131,27 @@ const queryBlogBySlug = cache(async ({ slug }: { slug: string }) => {
   }
 });
 
-const getRelatedBlogs = cache(async ({ slug }: { slug: string }) => {
-  const payload = await getPayload({ config: configPromise });
-  const relatedBlogs = await payload.find({
-    collection: "blogs",
-    draft: false,
-    overrideAccess: false,
-    where: { slug: { not_equals: slug } },
-    limit: 3,
-    depth: 2,
-    sort: "publishedAt",
-  });
-  return relatedBlogs.docs;
-});
+const getRelatedBlogs = cache(
+  async ({
+    slug,
+    categories,
+  }: {
+    slug: string;
+    categories: (number | Category)[];
+  }) => {
+    const payload = await getPayload({ config: configPromise });
+    const relatedBlogs = await payload.find({
+      collection: "blogs",
+      draft: false,
+      overrideAccess: false,
+      where: {
+        slug: { not_equals: slug },
+        ...(categories.length > 0 ? { categories: { in: categories } } : {}),
+      },
+      limit: 3,
+      depth: 2,
+      sort: "publishedAt",
+    });
+    return relatedBlogs.docs;
+  }
+);

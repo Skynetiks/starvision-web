@@ -86,7 +86,7 @@ export const RelatedPostCard: React.FC<RelatedPostCardProps> = async ({
           <Card
             key={post.id}
             doc={post}
-            relationTo="blogs"
+            relationTo="insights"
             showCategories={true}
           />
         ))}

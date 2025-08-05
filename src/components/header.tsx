@@ -69,7 +69,7 @@ export function Header() {
     },
     {
       name: "Insights",
-      link: "/blogs",
+      link: "/insights",
     },
     {
       name: "Contact",
@@ -191,7 +191,7 @@ export function Header() {
 
           {/* Blog */}
           <Link
-            href="/blogs"
+            href="/insights"
             onClick={() => setIsMobileMenuOpen(false)}
             className="relative text-neutral-600 dark:text-neutral-300 py-2"
           >

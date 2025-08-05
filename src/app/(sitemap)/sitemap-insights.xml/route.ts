@@ -32,7 +32,7 @@ export async function GET() {
   const blogUrls = blogs
     .map(
       (blog) => `  <url>
-    <loc>${url}/blogs/${blog.slug}</loc>
+    <loc>${url}/insights/${blog.slug}</loc>
     <lastmod>${blog.updatedAt}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -44,7 +44,7 @@ export async function GET() {
   const paginationUrls = Array.from({ length: totalPages }, (_, i) => i + 1)
     .map(
       (page) => `  <url>
-    <loc>${url}/blogs/page/${page}</loc>
+    <loc>${url}/insights/page/${page}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

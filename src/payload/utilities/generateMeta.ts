@@ -47,7 +47,7 @@ export const generateMeta = async (args: {
     "CSG Advisory helps businesses expand globally with expert company registration, tax compliance, director services, bank account opening, and HR/payroll solutions across 50+ countries.";
 
   const url = Array.isArray(doc?.slug) ? doc?.slug.join("/") : doc?.slug || "/";
-  const fullUrl = getServerSideURL() + "/blogs/" + url;
+  const fullUrl = getServerSideURL() + "/insights/" + url;
 
   // Get author information
   const authors = doc?.populatedAuthors || [];

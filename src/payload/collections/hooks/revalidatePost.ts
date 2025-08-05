@@ -7,31 +7,38 @@ import { revalidatePath } from "next/cache";
 
 import type { Blog } from "@/payload/payload-types";
 
-export const revalidatePost: CollectionAfterChangeHook<Blog> = ({
+export const revalidatePost: CollectionAfterChangeHook<Blog> = async ({
   doc,
   previousDoc,
   req: { payload, context },
 }) => {
   if (!context.disableRevalidate) {
     if (doc._status === "published") {
-      const path = `/blogs/${doc.slug}`;
+      const relatedBlogs = await payload.find({
+        collection: "blogs",
+        where: {
+          _status: { equals: "published" },
+          categories: { in: doc.categories },
+        },
+      });
+      const relatedBlogsSlugs = relatedBlogs.docs.map((blog) => blog.slug);
+      const relatedBlogsPaths = relatedBlogsSlugs.map(
+        (slug) => `/insights/${slug}`
+      );
+      const path = `/insights/${doc.slug}`;
 
       payload.logger.info(`Revalidating blog at path: ${path}`);
-      revalidatePath("/blogs");
-      revalidatePath("/blogs/page/[pageNumber]", "page");
-
+      revalidatePath("/insights");
+      revalidatePath("/insights/page/[pageNumber]", "page");
       revalidatePath(path);
-
-      // If the post was previously published, we need to revalidate the old path
-      if (previousDoc._status === "published" && doc._status !== "published") {
-        const oldPath = `/blogs/${previousDoc.slug}`;
-
-        payload.logger.info(`Revalidating old blog at path: ${oldPath}`);
-
-        revalidatePath(oldPath);
-        revalidatePath("/blogs/page/[pageNumber]", "page");
-        revalidatePath("/blogs");
-      }
+      relatedBlogsPaths.forEach((path) => {
+        revalidatePath(path);
+      });
+    } else {
+      const path = `/insights/${doc.slug}`;
+      payload.logger.info(`Revalidating blog at path: ${path}`);
+      revalidatePath("/insights");
+      revalidatePath("/insights/page/[pageNumber]", "page");
     }
     return doc;
   }
@@ -42,11 +49,11 @@ export const revalidateDelete: CollectionAfterDeleteHook<Blog> = ({
   req: { context },
 }) => {
   if (!context.disableRevalidate) {
-    const path = `/blogs/${doc?.slug}`;
+    const path = `/insights/${doc?.slug}`;
 
     revalidatePath(path);
-    revalidatePath("blogs");
-    revalidatePath("/blogs/page/[pageNumber]", "page");
+    revalidatePath("insights");
+    revalidatePath("/insights/page/[pageNumber]", "page");
   }
 
   return doc;

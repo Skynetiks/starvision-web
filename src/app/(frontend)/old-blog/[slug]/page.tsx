@@ -126,7 +126,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       {/* Hero Section */}
       <section className="relative w-full h-64 md:h-96 overflow-hidden">
         <Image
-          src={post.image || "/images/blogs/blog-1.webp"}
+          src={post.image || "/images/insights/blog-1.webp"}
           fill
           alt={post.title}
           className="object-cover"

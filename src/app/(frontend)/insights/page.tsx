@@ -116,7 +116,7 @@ export default async function Page() {
                   <Card
                     key={post.id}
                     doc={post}
-                    relationTo="blogs"
+                    relationTo="insights"
                     showCategories={true}
                   />
                 ))}
@@ -156,7 +156,9 @@ export function generateMetadata(): Metadata {
   const title = "Insights | CSG Advisory";
   const description =
     "Stay updated with the latest insights on international business registration, compliance, and global expansion strategies from CSG Advisory experts.";
-  const fullUrl = `https://${process.env.BASE_URL || "csgadvisory.com"}/blogs`;
+  const fullUrl = `https://${
+    process.env.BASE_URL || "csgadvisory.com"
+  }/insights`;
 
   return {
     title,
