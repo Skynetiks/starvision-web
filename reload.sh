@@ -31,7 +31,7 @@ migrate
 #docker-compose up -d --build --remove-orphans
 # 🐳 Build and run the application
 echo "🚀 Building and running the application..."
-docker-compose -f docker-compose.prod.yml up -d --build --remove-orphans
+docker-compose -f docker-compose.prod.yml up -d --build
 sleep 10
 
 
