@@ -11,6 +11,7 @@ NODE_ENV=production
 PAYLOAD_SECRET=$(openssl rand -base64 32)
 
 # 🔑 Generate .env file if it doesn't exist
+source ".env"
 if [ ! -f ".env" ]; then
   echo "🔑 Generating .env file..."
   cat > .env <<EOF
@@ -115,6 +116,7 @@ echo "✅ PostgreSQL is up and running."
 echo "🚀 Running database migrations..."
 migrate(){
     local DATABASE_URI="postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:5432/$POSTGRES_DB"
+    export DATABASE_URI
     npm run generate:types
     npm run generate:importmap
     npx payload migrate:create

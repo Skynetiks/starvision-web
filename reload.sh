@@ -20,16 +20,13 @@ npm install
 echo "🚀 Running database migrations..."
 migrate(){
     local DATABASE_URI="postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:5432/$POSTGRES_DB"
+    export DATABASE_URI
     npm run generate:types
     npm run generate:importmap
     npx payload migrate:create
     npx payload migrate
 }
 migrate
-
-#docker-compose down
-echo "🛑 Stopping application..."
-docker-compose -f docker-compose.prod.yml down
 
 #docker-compose up -d --build --remove-orphans
 # 🐳 Build and run the application

@@ -5,6 +5,7 @@ import { draftMode } from "next/headers";
 import { redirect } from "next/navigation";
 
 import configPromise from "@payload-config";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 export async function GET(
   req: {
@@ -67,6 +68,7 @@ export async function GET(
 
     redirect(path);
   } catch (error) {
+    if (isRedirectError(error)) throw error;
     console.error(error);
     return new Response("Error verifying token for live preview", {
       status: 500,
