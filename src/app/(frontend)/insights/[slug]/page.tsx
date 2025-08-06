@@ -89,7 +89,6 @@ const queryBlogBySlug = async ({ slug }: { slug: string }) => {
   try {
     const payload = await getPayload({ config: configPromise });
     const { isEnabled: draft } = await draftMode();
-    console.log("draft", draft);
     const result = await payload.find({
       collection: "blogs",
       limit: 1,
@@ -107,7 +106,6 @@ const queryBlogBySlug = async ({ slug }: { slug: string }) => {
         },
       },
     });
-    console.log("result", result);
     return result.docs?.[0] || null;
   } catch (error) {
     console.error(`Failed to fetch blog with slug "${slug}":`, error);
