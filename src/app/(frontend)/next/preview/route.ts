@@ -54,7 +54,7 @@ export async function GET(
     }
 
     const draft = await draftMode();
-
+    console.log("draft", draft, "user", user);
     if (!user) {
       draft.disable();
       return new Response("You are not allowed to preview this page", {
@@ -64,8 +64,15 @@ export async function GET(
 
     // You can add additional checks here to see if the user is allowed to preview this page
 
-    draft.enable();
-
+    try {
+      draft.enable();
+    } catch (error) {
+      console.error(error);
+      return new Response("Error enabling draft mode", {
+        status: 500,
+      });
+    }
+    console.log("draft", draft.isEnabled);
     redirect(path);
   } catch (error) {
     if (isRedirectError(error)) throw error;
