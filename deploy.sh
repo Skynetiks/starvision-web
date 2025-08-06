@@ -10,9 +10,36 @@ RATE_LIMIT_MAX_REQUESTS=3
 NODE_ENV=production
 PAYLOAD_SECRET=$(openssl rand -base64 32)
 
+# 🔑 Generate .env file if it doesn't exist
+if [ ! -f ".env" ]; then
+  echo "🔑 Generating .env file..."
+  cat > .env <<EOF
+RATE_LIMIT_WINDOW_MS=$RATE_LIMIT_WINDOW_MS
+RATE_LIMIT_MAX_REQUESTS=$RATE_LIMIT_MAX_REQUESTS
+NODE_ENV=$NODE_ENV
+PAYLOAD_SECRET=$PAYLOAD_SECRET
+NEXT_PUBLIC_CAL_LINK=change_me
+POSTGRES_DB=change_me
+POSTGRES_USER=change_me
+POSTGRES_PASSWORD="password"
+EMAIL_USER=change_me
+EMAIL_PASS=change_me
+EOF
+
+echo "✅ .env file created."
+echo "ℹ️ Please update the .env file with your actual values."
+exit 1
+else
+  echo "ℹ️ .env already exists. Skipping..."
+  source ".env"
+
+  if [ "$POSTGRES_DB" == "change_me" ] || [ "$POSTGRES_USER" == "change_me" ]; then
+    echo "❗ Please update the .env file with your actual database values."
+    exit 1
+  fi
+
+fi
 # 🛠 Script Variables
-REPO_URL="github_url"
-APP_DIR="$HOME/myapp"
 SWAP_SIZE="1G"  # 1 GB swap
 
 echo "🔄 Updating system packages..."
@@ -51,53 +78,15 @@ else
   echo "✅ npm is already installed."
 fi
 
-
-if [ "$APP_DIR" == "github_url" ]; then
-  echo "❗ Please set the REPO_URL variable to your GitHub repository URL."
-  exit 1
-fi
-
-# 📁 Clone or update the app repository
-if [ -d "$APP_DIR" ]; then
-  echo "🔄 Directory $APP_DIR already exists. Pulling latest changes..."
-  cd "$APP_DIR"
-  git pull origin main
+# trying to pull the latest changes from the git repository.
+if [ -d ".git" ]; then
+    echo "Current directory is a git repository. Pulling latest changes..."
+    git pull origin main
+    exit 0
 else
-  echo "📦 Cloning repository from $REPO_URL..."
-  git clone "$REPO_URL" "$APP_DIR"
-  cd "$APP_DIR"
-fi
-
-
-if [ ! -f "$APP_DIR/.env" ]; then
-  echo "🔑 Generating .env file..."
-  cat > .env <<EOF
-RATE_LIMIT_WINDOW_MS=$RATE_LIMIT_WINDOW_MS
-RATE_LIMIT_MAX_REQUESTS=$RATE_LIMIT_MAX_REQUESTS
-NODE_ENV=$NODE_ENV
-PAYLOAD_SECRET=$PAYLOAD_SECRET
-NEXT_PUBLIC_CAL_LINK=change_me
-POSTGRES_DB=change_me
-POSTGRES_USER=change_me
-POSTGRES_PASSWORD="password"
-EMAIL_USER=change_me
-EMAIL_PASS=change_me
-EOF
-
-echo "✅ .env file created."
-echo "ℹ️ Please update the .env file with your actual values."
-exit 1
-else
-  echo "ℹ️ .env already exists. Skipping..."
-  source "$APP_DIR/.env"
-
-  if [ "$POSTGRES_DB" == "change_me" ] || [ "$POSTGRES_USER" == "change_me" ]; then
-    echo "❗ Please update the .env file with your actual database values."
+    echo "Current directory is not a git repository. Please cd into the app directory and run the script again."
     exit 1
-  fi
-
 fi
-
 
 # 📦 Install dependencies
 echo "📦 Installing dependencies..."
@@ -125,8 +114,10 @@ echo "✅ PostgreSQL is up and running."
 # Migrations
 echo "🚀 Running database migrations..."
 migrate(){
-    local DATABASE_URL="postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:5432/$POSTGRES_DB"
-    npm run generate:importmap && npm run generate:types
+    local DATABASE_URI="postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:5432/$POSTGRES_DB"
+    npm run generate:types
+    npm run generate:importmap
+    npx payload migrate:create
     npx payload migrate:fresh
 }
 
@@ -149,6 +140,6 @@ fi
 
 # Giving Specific permissions for the media
 echo "🔧 Setting permissions for media_data directory..."
-sudo chown -R 1001:1001 "$APP_DIR/media_data"
+sudo chown -R 1001:1001 "media_data"
 
 echo "✅ Application is up and running."
