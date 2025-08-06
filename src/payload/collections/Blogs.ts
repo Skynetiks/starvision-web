@@ -97,6 +97,7 @@ export const Blogs: CollectionConfig = {
               name: "heroImage",
               type: "upload",
               relationTo: "media",
+              displayPreview: true,
             },
             {
               name: "excerpt",

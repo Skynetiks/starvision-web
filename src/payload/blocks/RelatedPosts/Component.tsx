@@ -25,7 +25,7 @@ export const RelatedPosts: React.FC<RelatedPostsProps> = (props) => {
           if (typeof doc === "string") return null;
 
           return (
-            <Card key={index} doc={doc} relationTo="blogs" showCategories />
+            <Card key={index} doc={doc} relationTo="insights" showCategories />
           );
         })}
       </div>

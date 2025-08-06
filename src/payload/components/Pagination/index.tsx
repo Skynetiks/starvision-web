@@ -35,7 +35,7 @@ export const Pagination: React.FC<{
               className="cursor-pointer"
               disabled={!hasPrevPage}
               onClick={() => {
-                router.push(`/blogs/page/${page - 1}`);
+                router.push(`/insights/page/${page - 1}`);
               }}
             />
           </PaginationItem>
@@ -51,7 +51,7 @@ export const Pagination: React.FC<{
               <PaginationLink
                 className="cursor-pointer"
                 onClick={() => {
-                  router.push(`/blogs/page/${page - 1}`);
+                  router.push(`/insights/page/${page - 1}`);
                 }}
               >
                 {page - 1}
@@ -64,7 +64,7 @@ export const Pagination: React.FC<{
               isActive
               className="cursor-pointer"
               onClick={() => {
-                router.push(`/blogs/page/${page}`);
+                router.push(`/insights/page/${page}`);
               }}
             >
               {page}
@@ -76,7 +76,7 @@ export const Pagination: React.FC<{
               <PaginationLink
                 className="cursor-pointer"
                 onClick={() => {
-                  router.push(`/blogs/page/${page + 1}`);
+                  router.push(`/insights/page/${page + 1}`);
                 }}
               >
                 {page + 1}
@@ -95,7 +95,7 @@ export const Pagination: React.FC<{
               disabled={!hasNextPage}
               className="cursor-pointer"
               onClick={() => {
-                router.push(`/blogs/page/${page + 1}`);
+                router.push(`/insights/page/${page + 1}`);
               }}
             />
           </PaginationItem>

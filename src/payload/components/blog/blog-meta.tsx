@@ -58,7 +58,7 @@ export const BlogMeta: React.FC<BlogMetaProps> = ({
                   <div key={author.id} className="flex items-center">
                     {author.avatar && (
                       <Image
-                        src={author.avatar.url || ""}
+                        src={author.avatar.url || "/images/team.webp"}
                         alt={author.name || ""}
                         width={size === "sm" ? 16 : 20}
                         height={size === "sm" ? 16 : 20}

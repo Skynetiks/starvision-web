@@ -21,7 +21,7 @@ export const Card: React.FC<{
   alignItems?: "center";
   className?: string;
   doc?: CardPostData;
-  relationTo?: "blogs";
+  relationTo?: "insights";
   showCategories?: boolean;
   title?: string;
 }> = (props) => {
@@ -60,7 +60,7 @@ export const Card: React.FC<{
   return (
     <article
       className={cn(
-        " overflow-hidden bg-card hover:cursor-pointer border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer h-full flex flex-col",
+        " overflow-hidden bg-card hover:cursor-pointer border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer h-full w-full flex flex-col",
         className
       )}
       ref={card.ref}
@@ -70,6 +70,7 @@ export const Card: React.FC<{
           resource={heroImageToUse}
           size="33vw"
           fill={true}
+          htmlElement={null}
           imgClassName="object-cover w-full h-full"
         />
       </div>

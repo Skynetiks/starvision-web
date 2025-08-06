@@ -13,7 +13,7 @@ export const internalDocToHref = ({
       : value;
 
   if (relationTo === "blogs") {
-    return `/blogs/${slug}`;
+    return `/insights/${slug}`;
   } else if (relationTo === "users") {
     return `/users/${slug}`;
   } else {

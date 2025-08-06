@@ -12,8 +12,8 @@ import {
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import GradientText from "./ui/gradient-text";
 import { useRouter } from "next/navigation";
+import { SiteLogo } from "./site-logo";
 
 export function Header() {
   const router = useRouter();
@@ -68,8 +68,8 @@ export function Header() {
       ],
     },
     {
-      name: "Blogs",
-      link: "/blogs",
+      name: "Insights",
+      link: "/insights",
     },
     {
       name: "Contact Us",
@@ -82,9 +82,7 @@ export function Header() {
   // Custom logo component
   const CustomLogo = () => (
     <Link href="/" className="flex items-center gap-2">
-      <span className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
-        CSG <GradientText>Advisory</GradientText>
-      </span>
+      <SiteLogo />
     </Link>
   );
 
@@ -192,13 +190,13 @@ export function Header() {
           </Link>
 
           {/* Blog */}
-          {/* <Link
-            href="/blog"
+          <Link
+            href="/insights"
             onClick={() => setIsMobileMenuOpen(false)}
             className="relative text-neutral-600 dark:text-neutral-300 py-2"
           >
-            <span className="block">Blog</span>
-          </Link> */}
+            <span className="block">Insights</span>
+          </Link>
 
           {/* Contact */}
           <Link

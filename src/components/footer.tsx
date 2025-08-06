@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CurrentYear } from "./ui/current-year";
+import { SiteLogo } from "./site-logo";
 
 export default function Footer() {
   return (
@@ -8,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
           <div className="col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <span className="text-xl font-bold">CSG Advisory</span>
+              <SiteLogo width={160} height={100} />
             </Link>
             <p className="text-gray-500 mb-4 max-w-xs">
               Simplifying international business registration with expert

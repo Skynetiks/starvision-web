@@ -17,7 +17,7 @@ export const plugins: Plugin[] = [
     uploadsCollection: "media",
     generateTitle: ({ doc }) => `${doc.title}`,
     generateDescription: ({ doc }) => doc.excerpt,
-    generateURL: ({ doc }) => `${getServerSideURL()}/blogs/${doc.slug}`,
+    generateURL: ({ doc }) => `${getServerSideURL()}/insights/${doc.slug}`,
     generateImage: ({ doc }) => doc.heroImage?.url,
   }),
 
