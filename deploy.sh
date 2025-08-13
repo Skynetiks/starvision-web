@@ -11,7 +11,6 @@ NODE_ENV=production
 PAYLOAD_SECRET=$(openssl rand -base64 32)
 
 # 🔑 Generate .env file if it doesn't exist
-source ".env"
 if [ ! -f ".env" ]; then
   echo "🔑 Generating .env file..."
   cat > .env <<EOF
