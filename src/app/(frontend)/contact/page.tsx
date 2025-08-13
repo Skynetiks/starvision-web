@@ -1,9 +1,11 @@
 import ContactForm from "@/components/contact-form";
 
-export const metadata = {
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
   title: "Contact Us | CSG Advisory",
   description:
-    "Get in touch with CSG Advisory for expert international business registration services. Contact our team for personalized assistance.",
+    "Reach out to CSG Advisory's team for international business setup, company registration, or compliance assistance. We’re here to help you grow globally.",
 };
 
 export default function ContactPage() {

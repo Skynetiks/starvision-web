@@ -41,7 +41,7 @@ const GlobalHeroSection = () => {
   // Memoize rotating text items
   const rotatingTextItems = useMemo(
     () => [
-      "Global Business",
+      "Worldwide Business",
       "International Expansion",
       "Worldwide Registration",
       "Cross-Border Growth",
@@ -165,16 +165,16 @@ const GlobalHeroSection = () => {
                 <h1 className="text-3xl justify-start font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-gray-900">
                   Transform Your{" "}
                   <span
-                    className="text-slide-container"
-                    style={{ height: "1.2em" }}
+                    className="text-slide-container h-[1.2em] lg:h-[2em]"
+                    // style={{ height: "1.2em" }}
                   >
                     <div className="animate-text-slide">
                       {rotatingTextItems.map((text, index) => (
                         <div
                           key={index}
-                          className="h-[1.2em] flex items-center"
+                          className="flex items-center"
                         >
-                          <GradientText>{text}</GradientText>
+                          <GradientText className="text-md">{text}</GradientText>
                         </div>
                       ))}
                     </div>

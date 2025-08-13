@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { Users, Award, TrendingUp, Eye } from "lucide-react";
 import GradientText from "@/components/ui/gradient-text";
+import { Metadata } from "next";
 
-export const metadata = {
-  title: "About Us | CSG Advisory",
+export const metadata: Metadata = {
+  title: "About CSG Advisory | Global Business Experts",
   description:
-    "Learn about CSG Advisory's mission to simplify international business registration with expert guidance and comprehensive support.",
+    "Learn about CSG Advisory’s global footprint, our expert team, and how we empower businesses through seamless company formation and compliance services worldwide.",
 };
 
 export default function AboutPage() {

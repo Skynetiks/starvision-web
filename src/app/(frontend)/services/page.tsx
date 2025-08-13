@@ -16,9 +16,9 @@ import { buttonVariants } from "@/components/ui/button";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Comprehensive Global Business Services | CSG Advisory",
+  title: "Our Services | CSG Advisory",
   description:
-    "Explore CSG Advisory's full suite of international business services including company registration, tax compliance, bank account opening, director and secretarial services, and ongoing corporate support across 50+ jurisdictions.",
+    "Explore CSG Advisory’s full suite of services, including company formation, compliance, taxation, corporate secretarial, and global business support.",
   keywords:
     "international business services, global company formation, tax compliance, bank account opening, nominee director services, company secretarial services, offshore company setup, business registration support, global expansion services, cross-border compliance",
   openGraph: {

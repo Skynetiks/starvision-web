@@ -1,5 +1,13 @@
 import ScheduleForm from "@/components/schedule-form";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Schedule a Consultation | CSG Advisory Global Experts",
+  description:
+    "Book your consultation with global incorporation and compliance experts at CSG Advisory. Get personalized guidance to set up or expand your business internationally.",
+};
+
 export default function ScheduleConsultation() {
   return (
     <section className="w-full flex justify-center py-12 md:py-24 animate-gradient bg-gradient-to-r from-logo-primary  to-logo-secondary ">

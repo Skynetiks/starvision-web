@@ -72,6 +72,10 @@ export function Header() {
       link: "/insights",
     },
     {
+      name: "IT Consultancy",
+      link: "/it-consultancy",
+    },
+    {
       name: "Contact Us",
       link: "/contact",
     },
@@ -197,7 +201,15 @@ export function Header() {
           >
             <span className="block">Insights</span>
           </Link>
-
+          
+          {/* IT Consultancy */}
+          <Link
+            href="/it-consultancy"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="relative text-neutral-600 dark:text-neutral-300 py-2"
+          >
+            <span className="block">IT Consultancy</span>
+          </Link>
           {/* Contact */}
           <Link
             href="/contact"

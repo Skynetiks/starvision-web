@@ -74,6 +74,9 @@ export const businessData: CountryData[] = [
         access_to_double_taxation_treaties: "No",
       },
     ],
+    titleSeo: "Australia Company Formation | CSG Advisory Services",
+    descriptionSeo: "Set up your company in Australia with seamless support. CSG Advisory provides company formation, compliance assistance, and expert local guidance.",
+    keywordsSeo: ""
   },
   {
     countryCode: "VG",
@@ -149,6 +152,9 @@ export const businessData: CountryData[] = [
         must_file_annual_return: "No",
       },
     ],
+    titleSeo: "BVI Offshore Company Formation | CSG Advisory Experts",
+    descriptionSeo: "Launch your offshore business in the British Virgin Islands. CSG Advisory delivers tailored BVI offshore company formation, compliance, and support services.",
+    keywordsSeo: ""
   },
   {
     countryCode: "AE",
@@ -219,6 +225,9 @@ export const businessData: CountryData[] = [
 	      access_to_double_taxation_treaties: "Yes",
       },
     ],
+    titleSeo: "Company Incorporation Services Dubai | Company Formation Dubai",
+    descriptionSeo: "Company formation in Dubai UAE made easy. Get expert company incorporation services Dubai and support for formation of company in Dubai with compliance",
+    keywordsSeo: "dubai company formation, formation of company in dubai, company formation dubai, company incorporation services dubai, company formation in dubai uae"
   },
   {
     countryCode: "DE",
@@ -277,6 +286,9 @@ export const businessData: CountryData[] = [
         access_to_double_taxation_treaties: "No",
       },
     ],
+    titleSeo: "Germany Company Setup | CSG Advisory Support",
+    descriptionSeo: "Expand your business in Germany with ease. CSG Advisory offers company registration, compliance, and bank setup tailored to German regulations.",
+    keywordsSeo: ""
   },
   {
     countryCode: "HK",
@@ -338,8 +350,10 @@ export const businessData: CountryData[] = [
         access_to_double_taxation_treaties: "No",
       },
     ],
+    titleSeo: "Offshore Company Formation in Hong Kong | CSG Advisory",
+    descriptionSeo: "Get expert help with offshore company formation in Hong Kong. We offer end-to-end Hong Kong company registration support with banking and compliance.",
+    keywordsSeo: "hong kong company registration, offshore company formation in hong kong"
   },
-
   {
     countryCode: "IN",
     country: "India",
@@ -426,6 +440,9 @@ export const businessData: CountryData[] = [
         can_hire_expatriate_staff: "Yes",
       },
     ],
+    titleSeo: "Company Formation Services India | Company Formation India",
+    descriptionSeo: "Company formation in India made easy. Get expert company registration services India & full support for registration for company India with CSG Advisory.",
+    keywordsSeo: "registration for company india, company formation in india, company formation india, company registration services india, company formation services india"
   },
   {
     countryCode: "ID",
@@ -484,6 +501,9 @@ export const businessData: CountryData[] = [
         access_to_double_taxation_treaties: "No",
       },
     ],
+    titleSeo: "Indonesia Company Registration | CSG Advisory Help",
+    descriptionSeo: "Register your company in Indonesia with ease. CSG Advisory offers comprehensive support—from formation to compliance and banking services in Indonesia.",
+    keywordsSeo: ""
   },
   {
     countryCode: "MY",
@@ -579,6 +599,9 @@ export const businessData: CountryData[] = [
         access_to_double_taxation_treaties: "No",
       },
     ],
+    titleSeo: "Company Formation Malaysia | Company Registration Malaysia",
+    descriptionSeo: "Company formation services Malaysia with end-to-end support. Get fast company registration Malaysia & Malaysia company registration for global businesses.",
+    keywordsSeo: "company formation services malaysia, company formation malaysia, company registration malaysia, malaysia company registration"
   },
   {
     countryCode: "SG",
@@ -674,6 +697,9 @@ export const businessData: CountryData[] = [
         access_to_double_taxation_treaties: "No",
       },
     ],
+    titleSeo: "Singapore Company Formation Services | Company Registration SG",
+    descriptionSeo: "Company registration in Singapore made simple. We offer company formation services in Singapore, company registration number Singapore & end-to-end support.",
+    keywordsSeo: "singapore company formation services, company formation services in singapore, company registration in singapore, company formation singapore, singapore company formation, company registration no singapore, company registration number singapore, company registration services singapore, singapore company registration services"
   },
   {
     countryCode: "ES",
@@ -732,6 +758,9 @@ export const businessData: CountryData[] = [
         access_to_double_taxation_treaties: "No",
       },
     ],
+    titleSeo: "Spain Business Setup | Company Formation by CSG Advisory",
+    descriptionSeo: "Expand into Spain with complete company formation services. CSG Advisory supports your business with legal, registration, and compliance solutions in Spain.",
+    keywordsSeo: ""
   },
   {
     countryCode: "LK",
@@ -787,6 +816,9 @@ export const businessData: CountryData[] = [
         access_to_double_taxation_treaties: "No",
       },
     ],
+    titleSeo: "Sri Lanka Company Formation | CSG Advisory Services",
+    descriptionSeo: "Launch your company in Sri Lanka easily. CSG Advisory delivers end-to-end company formation, compliance, and support tailored to Sri Lankan regulations.",
+    keywordsSeo: ""
   },
   {
     countryCode: "TH",
@@ -842,6 +874,9 @@ export const businessData: CountryData[] = [
         access_to_double_taxation_treaties: "Yes",
       },
     ],
+    titleSeo: "Thailand Company Formation | CSG Advisory Services	",
+    descriptionSeo: "Set up your business in Thailand with expert support. Our company formation services cover legal, banking & compliance—reliable solutions from CSG Advisory.",
+    keywordsSeo: ""
   },
   {
     countryCode: "GB",
@@ -916,6 +951,9 @@ export const businessData: CountryData[] = [
         access_to_double_taxation_treaties: "Yes",
       },
     ],
+    titleSeo: "UK Company Registration | Company Formation UK & Registration",
+    descriptionSeo: "Company registration United Kingdom made simple. We offer UK company formation service and registration for company UK with expert legal and tax guidance.",
+    keywordsSeo: "uk company registration, company registration uk, registration for company UK, company formation uk, company registration united kingdom, uk company formation service"
   },
   {
     countryCode: "VN",
@@ -986,6 +1024,9 @@ export const businessData: CountryData[] = [
         access_to_double_taxation_treaties: "Yes",
       },
     ],
+    titleSeo: "Company Formation Services in Vietnam | CSG Advisory",
+    descriptionSeo: "Explore company formation services in Vietnam with CSG Advisory. From incorporation to local compliance, get trusted support for successful business setup.",
+    keywordsSeo: ""
   },
 ];
 

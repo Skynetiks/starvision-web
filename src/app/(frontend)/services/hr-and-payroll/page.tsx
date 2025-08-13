@@ -15,9 +15,9 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title:
-    "Global HR and Payroll Services for International Businesses | CSG Advisory",
+    "HR & Payroll Services | CSG Advisory Support Solutions",
   description:
-    "Reliable HR and payroll solutions tailored for international businesses. Automate payroll, ensure local compliance, and manage global workforce operations efficiently across multiple jurisdictions.",
+    "Streamline HR and payroll for your international company. CSG Advisory offers compliant and efficient HR & payroll services tailored to global businesses.",
   keywords:
     "global payroll services, international HR solutions, HR outsourcing, payroll processing, employee onboarding, cross-border payroll compliance, human resources management, international workforce support, expatriate payroll services, HR compliance services",
   openGraph: {

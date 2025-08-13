@@ -6,9 +6,9 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title:
-    "Nominee & Professional Director Services for International Businesses",
+    "Director Services | Global Company Compliance Support",
   description:
-    "Comprehensive director services including nominee directors, resident directors, and corporate governance support. Ensure regulatory compliance and maintain confidentiality across global jurisdictions.",
+    "CSG Advisory provides Director Services for international entities — ensuring compliance, nominee support, and trusted governance across jurisdictions.",
   keywords:
     "nominee director services, resident director services, international director services, corporate governance solutions, professional directorship, offshore company director, board representation services, director compliance services, third-party director, global entity management",
   openGraph: {

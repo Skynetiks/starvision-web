@@ -4,11 +4,13 @@ import { ContactFormData } from "@/types/contact";
 import { Button } from "./ui/button";
 import GradientText from "./ui/gradient-text";
 import { Input } from "./ui/input";
-import { useState, FormEvent, ChangeEvent } from "react";
+import { useState, FormEvent, ChangeEvent, useEffect } from "react";
 type SubmitStatus = "idle" | "success" | "error";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import ScheduleConsultationButton from "./custom-ui/schedule-consultation-button";
+import { useRouter } from "next/navigation";
+
 
 interface ApiResponse {
   success?: boolean;
@@ -27,6 +29,7 @@ const ContactForm: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
+  const router = useRouter();
 
   const handleWhatsAppClick = (): void => {
     const phoneNumber: string = "6598873054";
@@ -93,6 +96,9 @@ const ContactForm: React.FC = () => {
       setIsSubmitting(false);
     }
   };
+  useEffect(() => {
+    if (submitStatus === "success") router.push("/contact-thankyou");
+  }, [submitStatus]);
 
   return (
     <section className="w-full flex justify-center py-12 md:py-24 bg-white">

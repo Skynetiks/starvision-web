@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | CSG Advisory",
+  title: "Terms & Conditions | CSG Advisory",
   description:
-    "CSG Advisory's terms of service outlining the terms and conditions for using our international business registration services.",
+    "Review CSG Advisory's Terms & Conditions for using our company formation and compliance services, ensuring transparency in our business governance.",
 };
 
 export default function TermsPage() {
