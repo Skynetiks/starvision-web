@@ -13,9 +13,9 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Expert Accounting and Tax Services for International Businesses",
+  title: "Accounting & Tax Services | Global Compliance Support",
   description:
-    "Professional accounting and tax services tailored for international businesses. Ensure compliance, optimize financial operations, and streamline reporting with our expert solutions.",
+    "CSG Advisory offers Accounting & Tax Services tailored for international companies — streamlined financial management and tax compliance across borders.",
   keywords:
     "International accounting services, global tax compliance, corporate tax filing, financial reporting services, bookkeeping for businesses, cross-border tax planning, business tax advisory, international financial management, accounting outsourcing, tax consulting services",
   openGraph: {

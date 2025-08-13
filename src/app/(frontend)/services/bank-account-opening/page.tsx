@@ -11,9 +11,9 @@ import {
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Business Bank Account Opening Services for Global Entrepreneurs",
+  title: "Bank Account Opening Services | CSG Advisory Expertise",
   description:
-    "Streamlined business bank account opening services for startups, SMEs, and international companies. Get expert assistance in accessing reliable global banking partners and meeting compliance requirements.",
+    "Open your corporate bank account globally with CSG Advisory. We support streamlined bank account setup for companies across jurisdictions and compliance needs.",
   keywords:
     "business bank account opening, international banking solutions, offshore bank account setup, global business banking, SME bank accounts, startup banking support, corporate bank accounts, cross-border banking services, business banking consultancy, financial compliance for banking",
   openGraph: {

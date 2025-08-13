@@ -8,6 +8,14 @@ import GlobalHeroSection from "@/components/hero";
 import ContactForm from "@/components/contact-form";
 import ScheduleConsultation from "./schedule-consultation/page";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Global Company Formation & Compliance | CSG Advisory",
+  description:
+    "CSG Advisory offers global company formation, compliance, and business registration services — seamless international incorporation backed by expert support.",
+};
+
 export default function Home() {
   return (
     <main className="flex flex-col min-h-screen">

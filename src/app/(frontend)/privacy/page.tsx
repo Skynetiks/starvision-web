@@ -1,7 +1,9 @@
-export const metadata = {
-  title: "Privacy Policy | CSG Advisory",
+import { Metadata } from "next";
+
+export const metadata:Metadata = {
+  title: "Privacy Policy | CSG Advisory	",
   description:
-    "CSG Advisory's privacy policy outlining how we collect, use, and protect your personal information.",
+    "Read CSG Advisory’s Privacy Policy to understand how we handle your data responsibly when providing international company formation and compliance services.",
 };
 
 export default function PrivacyPage() {

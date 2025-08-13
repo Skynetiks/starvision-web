@@ -1,6 +1,7 @@
 import CountriesGrid from "@/components/countries-grid";
+import { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Explore Company Registration in 50+ Countries | CSG Advisory",
   description:
     "Browse through 50+ global jurisdictions for company registration. Discover the benefits, compliance requirements, and setup timelines tailored to each country with CSG Advisory’s expert guidance.",

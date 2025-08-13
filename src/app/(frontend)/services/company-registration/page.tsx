@@ -17,11 +17,11 @@ import { cn } from "@/lib/utils";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Global Company Registration Services in 50+ Jurisdictions",
+  title: "Company Registration Companies | Limited Company Formation",
   description:
-    "Efficient and compliant company registration services across 50+ countries. Get expert guidance on business formation, legal structuring, and regulatory compliance tailored to your business goals.",
+    "Explore company new registration, formation offshore company and limited company formation services. Fast, compliant, expert support for your business setup.",
   keywords:
-    "company registration services, international business formation, offshore company setup, business incorporation services, global company registration, legal business structuring, foreign company setup, business compliance services, entity formation experts, cross-border incorporation",
+    "company registration companies, company new registration, formation offshore company, limited company formation, international business formation, offshore company setup, business incorporation services, global company registration, legal business structuring, foreign company setup, business compliance services, entity formation experts, cross-border incorporation",
   openGraph: {
     title: "Global Company Registration Services in 50+ Jurisdictions",
     description:

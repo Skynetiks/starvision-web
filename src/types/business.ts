@@ -46,6 +46,9 @@ export interface CountryData {
   image: string;
   description: string;
   entities: BusinessEntity[];
+  titleSeo: string;
+  descriptionSeo: string;
+  keywordsSeo: string;
 }
 
 export interface UpcomingCountry {

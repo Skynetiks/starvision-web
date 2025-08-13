@@ -18,9 +18,9 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Global Company Secretarial Services for Corporate Compliance",
+  title: "Company Secretarial Services | Corporate Compliance Experts",
   description:
-    "Expert company secretarial services to maintain statutory compliance, support governance, and manage corporate records across multiple jurisdictions. Trusted by businesses worldwide for efficient and reliable support.",
+    "CSG Advisory’s Company Secretarial Services ensure your business stays compliant — covering regulatory filings, board support, and governance protocols.",
   keywords:
     "company secretarial services, corporate compliance solutions, statutory filing services, registered office services, corporate governance support, annual return filing, board meeting documentation, company law compliance, entity management services, international secretarial support",
   openGraph: {
