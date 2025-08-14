@@ -40,19 +40,19 @@ else
 
 fi
 # 🛠 Script Variables
-SWAP_SIZE="1G"  # 1 GB swap
+SWAP_SIZE="5G"  # 1 GB swap
 
 echo "🔄 Updating system packages..."
 sudo apt update && sudo apt upgrade -y
 
 # ➕ Add Swap if not already present
-if ! swapon --show | grep -q '/swapfile'; then
+if ! swapon --show | grep -q '/swapfile2'; then
   echo "📦 Adding $SWAP_SIZE swap space..."
-  sudo fallocate -l "$SWAP_SIZE" /swapfile
-  sudo chmod 600 /swapfile
-  sudo mkswap /swapfile
-  sudo swapon /swapfile
-  echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+  sudo fallocate -l "$SWAP_SIZE" /swapfile2
+  sudo chmod 600 /swapfile2
+  sudo mkswap /swapfile2
+  sudo swapon /swapfile2
+  echo '/swapfile2 none swap sw 0 0' | sudo tee -a /etc/fstab
 else
   echo "✅ Swap already exists. Skipping..."
 fi
@@ -82,7 +82,6 @@ fi
 if [ -d ".git" ]; then
     echo "Current directory is a git repository. Pulling latest changes..."
     git pull origin main
-    exit 0
 else
     echo "Current directory is not a git repository. Please cd into the app directory and run the script again."
     exit 1
@@ -97,7 +96,7 @@ npm install
 echo "🚀 Starting PostgreSQL with docker-compose.postgres.prod.yml..."
 
 
-sudo docker-compose -f docker-compose.postgres.prod.yml up -d --remove-orphans
+sudo docker-compose -f docker-compose.postgres.prod.yml up -d
 
 sleep 5
 
@@ -116,6 +115,7 @@ echo "🚀 Running database migrations..."
 migrate(){
     local DATABASE_URI="postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:5432/$POSTGRES_DB"
     export DATABASE_URI
+    echo $DATABASE_URI
     npm run generate:types
     npm run generate:importmap
     npx payload migrate:create
@@ -128,7 +128,7 @@ migrate
 # 🐳 Build and run the application
 
 echo "🚀 Building and running the application..."
-docker-compose -f docker-compose.prod.yml up -d --build --remove-orphans
+sudo docker-compose -f docker-compose.prod.yml up -d --build
 sleep 10
 
 
