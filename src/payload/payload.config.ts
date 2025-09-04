@@ -67,7 +67,7 @@ export default buildConfig({
   // database-adapter-config-end
   collections: [Blogs, Categories, Media, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  csrf: [getServerSideURL()].filter(Boolean),
+//   csrf: [getServerSideURL()].filter(Boolean),
 
   globals: [],
   plugins: [
