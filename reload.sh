@@ -16,6 +16,21 @@ git pull origin main
 echo "📦 Installing dependencies..."
 npm install
 
+# 🐘 Ensure PostgreSQL is running
+echo "🚀 Starting PostgreSQL with docker-compose.postgres.prod.yml..."
+sudo docker-compose -f docker-compose.postgres.prod.yml up -d --remove-orphans
+
+sleep 5
+
+# 🔍 Verify DB container is running
+if ! sudo docker-compose -f docker-compose.postgres.prod.yml ps | grep -q "Up"; then
+  echo "❌ PostgreSQL container failed to start. Check logs:"
+  sudo docker-compose -f docker-compose.postgres.prod.yml logs postgres
+  exit 1
+fi
+
+echo "✅ PostgreSQL is up and running."
+
 # Migrations
 echo "🚀 Running database migrations..."
 migrate(){
@@ -28,12 +43,10 @@ migrate(){
 }
 migrate
 
-#docker-compose up -d --build --remove-orphans
 # 🐳 Build and run the application
 echo "🚀 Building and running the application..."
-docker-compose -f docker-compose.prod.yml up -d --build
+sudo docker-compose -f docker-compose.prod.yml up -d --build --remove-orphans
 sleep 10
-
 
 # 🔍 Verify app container is running
 if ! sudo docker-compose -f docker-compose.prod.yml ps | grep -q "Up"; then
