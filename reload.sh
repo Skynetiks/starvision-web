@@ -17,8 +17,8 @@ echo "📦 Installing dependencies..."
 npm install
 
 # 🐘 Ensure PostgreSQL is running
-echo "🚀 Starting PostgreSQL with docker-compose.postgres.prod.yml..."
-sudo docker-compose -f docker-compose.postgres.prod.yml up -d --remove-orphans
+echo "🚀 Ensuring PostgreSQL is running..."
+sudo docker-compose -f docker-compose.postgres.prod.yml up -d
 
 sleep 5
 
@@ -43,9 +43,13 @@ migrate(){
 }
 migrate
 
+# 🐳 Stop existing app container and rebuild
+echo "🛑 Stopping existing application container..."
+sudo docker-compose -f docker-compose.prod.yml down
+
 # 🐳 Build and run the application
 echo "🚀 Building and running the application..."
-sudo docker-compose -f docker-compose.prod.yml up -d --build --remove-orphans
+sudo docker-compose -f docker-compose.prod.yml up -d --build
 sleep 10
 
 # 🔍 Verify app container is running
