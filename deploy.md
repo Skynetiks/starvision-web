@@ -61,6 +61,8 @@ chmod +x deploy.sh
   - `EMAIL_USER`, `EMAIL_PASS` - Email configuration
   - `NEXT_PUBLIC_CAL_LINK` - Calendly integration
   - `BASE_URL`, `NEXT_PUBLIC_SERVER_URL` - Your domain URLs
+  - `PAYLOAD_SECRET` - Your secret payload key
+
 
 ## 🔄 Updating the Application (Subsequent Deployments)
 
