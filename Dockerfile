@@ -30,6 +30,8 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 ENV NODE_OPTIONS="--max-old-space-size=4096"
+ARG NEXT_PUBLIC_CAL_LINK
+ENV NEXT_PUBLIC_CAL_LINK=$NEXT_PUBLIC_CAL_LINK
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \

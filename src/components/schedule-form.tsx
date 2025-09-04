@@ -1,10 +1,15 @@
 "use client";
 
 import Cal, { getCalApi } from "@calcom/embed-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 function ScheduleForm() {
+  const [calLink, setCalLink] = useState<string | null>(null);
+
   useEffect(() => {
+    if (!process.env.NEXT_PUBLIC_CAL_LINK) return;
+    setCalLink(process.env.NEXT_PUBLIC_CAL_LINK);
+
     (async function () {
       const cal = await getCalApi({ namespace: "30min" });
       cal("ui", {
@@ -18,10 +23,13 @@ function ScheduleForm() {
       });
     })();
   }, []);
+
+  if (!calLink) return <p>Loading calendar...</p>;
+
   return (
     <Cal
-      namespace={process.env.NEXT_PUBLIC_CAL_LINK?.split("/")[1] || ""}
-      calLink={process.env.NEXT_PUBLIC_CAL_LINK || ""}
+      namespace={calLink.split("/")[1] || ""}
+      calLink={calLink}
       style={{ width: "100%", height: "100%", overflow: "scroll" }}
       config={{ layout: "month_view", theme: "light" }}
     />

@@ -1,7 +1,7 @@
 import ScheduleForm from "@/components/schedule-form";
 
 import { Metadata } from "next";
-
+// export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Schedule a Consultation | CSG Advisory Global Experts",
   description:
@@ -24,13 +24,7 @@ export default function ScheduleConsultation() {
           </div>
         </div>
         <div className="py-5 md:px-1">
-          {process.env.NEXT_PUBLIC_CAL_LINK ? (
-            <ScheduleForm />
-          ) : (
-            <div className="text-white">
-              <p>No calendar link found in env</p>
-            </div>
-          )}
+          <ScheduleForm />
         </div>
       </div>
     </section>

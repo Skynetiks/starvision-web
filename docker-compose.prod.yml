@@ -4,12 +4,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_CAL_LINK=${NEXT_PUBLIC_CAL_LINK}
     container_name: starvision-app-prod
     environment:
       - NODE_ENV=production
       - DATABASE_URI=postgresql://${POSTGRES_USER:-starvision_user}:${POSTGRES_PASSWORD}@starvision-postgres-prod:5432/${POSTGRES_DB:-starvision}
       - PAYLOAD_SECRET=${PAYLOAD_SECRET}
       - NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL}
+      - NEXT_PUBLIC_CAL_LINK=${NEXT_PUBLIC_CAL_LINK}
     env_file:
       - .env
     ports:
