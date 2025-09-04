@@ -1,7 +1,7 @@
 import ScheduleForm from "@/components/schedule-form";
 
 import { Metadata } from "next";
-// export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Schedule a Consultation | CSG Advisory Global Experts",
   description:

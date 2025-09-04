@@ -24,7 +24,7 @@ function ScheduleForm() {
     })();
   }, []);
 
-  if (!calLink) return <p>Loading calendar...</p>;
+  if (!calLink) return null;
 
   return (
     <Cal
