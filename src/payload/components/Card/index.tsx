@@ -37,14 +37,13 @@ export const Card: React.FC<{
   const {
     slug,
     categories,
-    meta,
+    excerpt,
     title,
     heroImage,
     authors,
     publishedAt,
     populatedAuthors,
   } = doc || {};
-  const { description } = meta || {};
   const heroImageToUse = heroImage
     ? typeof heroImage === "object"
       ? heroImage
@@ -54,7 +53,7 @@ export const Card: React.FC<{
     categories && Array.isArray(categories) && categories.length > 0;
 
   const titleToUse = titleFromProps || title;
-  const sanitizedDescription = description?.replace(/\s/g, " "); // replace non-breaking space with white space
+  const sanitizedExcerpt = excerpt?.replace(/\s/g, " "); // replace non-breaking space with white space
   const href = `/${relationTo}/${slug}`;
 
   return (
@@ -90,9 +89,9 @@ export const Card: React.FC<{
           />
         )}
 
-        {sanitizedDescription && (
+        {sanitizedExcerpt && (
           <BlogDescription
-            description={sanitizedDescription}
+            description={sanitizedExcerpt}
             size="sm"
             maxLines={3}
             className="mb-4"

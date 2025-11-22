@@ -48,6 +48,7 @@ export const Blogs: CollectionConfig = {
     title: true,
     slug: true,
     categories: true,
+    excerpt: true,
     meta: {
       image: true,
       description: true,

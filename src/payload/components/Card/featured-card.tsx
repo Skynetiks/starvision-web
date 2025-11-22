@@ -37,7 +37,7 @@ export const FeaturedCard: React.FC<{
   const {
     slug,
     categories,
-    meta,
+    excerpt,
     title,
     heroImage,
     authors,
@@ -45,7 +45,6 @@ export const FeaturedCard: React.FC<{
     populatedAuthors,
   } = doc || {};
 
-  const { description } = meta || {};
   const heroImageToUse = heroImage
     ? typeof heroImage === "object"
       ? heroImage
@@ -55,7 +54,7 @@ export const FeaturedCard: React.FC<{
     categories && Array.isArray(categories) && categories.length > 0;
 
   const titleToUse = titleFromProps || title;
-  const sanitizedDescription = description?.replace(/\s/g, " "); // replace non-breaking space with white space
+  const sanitizedExcerpt = excerpt?.replace(/\s/g, " "); // replace non-breaking space with white space
   const href = `/${relationTo}/${slug}`;
 
   return (
@@ -91,9 +90,9 @@ export const FeaturedCard: React.FC<{
             />
           )}
 
-          {sanitizedDescription && (
+          {sanitizedExcerpt && (
             <BlogDescription
-              description={sanitizedDescription}
+              description={sanitizedExcerpt}
               size="md"
               maxLines={4}
             />
